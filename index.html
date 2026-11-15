@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кибер-Даня-Windows-X | Защищенный Узел v4.5</title>
+    <title>Кибер-Даня-Windows-X | Ультимативный Игровой Комплекс v5.1</title>
     <style>
         :root {
             --bg-color: #070913;
@@ -19,8 +19,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 100px; }
         
-        /* Защитный экран блокировки (если зашли не с бота) */
-        #security-lock { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #070913; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        /* Защитный экран блокировки */
+        #security-lock { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #070913; z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; }
         .lock-box { background: var(--panel-bg); border: 2px solid var(--neon-pink); box-shadow: 0 0 35px rgba(255, 42, 109, 0.4); padding: 35px; border-radius: 18px; width: 100%; max-width: 480px; text-align: center; }
         .lock-box h2 { color: var(--neon-blue); margin-bottom: 15px; font-size: 22px; text-shadow: 0 0 10px rgba(5,217,232,0.5); }
         .lock-box p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 25px; }
@@ -82,13 +82,16 @@
         th { color: var(--neon-blue); font-weight: 600; background: rgba(5, 217, 232, 0.04); }
         tr:hover { background: rgba(255, 42, 109, 0.04); }
 
-        /* Secure Verification Box */
+        /* Secure Verification & Sponsor Box */
         .telegram-box { background: #070913; border: 1px solid var(--neon-blue); border-radius: 14px; padding: 25px; text-align: center; margin-top: 25px; box-shadow: 0 0 15px rgba(5,217,232,0.2); }
         .telegram-box h3 { color: var(--neon-blue); margin-bottom: 10px; }
         .telegram-box p { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; }
         .tg-btn { display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); color: #fff; font-weight: bold; border-radius: 8px; text-decoration: none; box-shadow: 0 0 15px rgba(5,217,232,0.4); transition: 0.2s; cursor: pointer; border: none; font-size: 15px; }
         .tg-btn:hover { transform: scale(1.03); }
         
+        .copy-sub-btn { background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 0 15px rgba(255,42,109,0.4); transition: 0.2s; margin-top: 10px; }
+        .copy-sub-btn:hover { transform: scale(1.03); }
+
         .file-upload-label { display: inline-block; padding: 10px 20px; background: rgba(5, 217, 232, 0.1); border: 1px dashed var(--neon-blue); color: var(--neon-blue); border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 13px; transition: 0.2s; }
         .file-upload-label:hover { background: rgba(5, 217, 232, 0.2); }
 
@@ -119,8 +122,8 @@
 </head>
 <body>
 
-    <!-- ЗАЩИТНЫЙ ЭКРАН (БЛОКИРОВКА ПРЯМОГО ДОСТУПА С САЙТА) -->
-    <div id="security-lock" style="display: none;">
+    <!-- ЗАЩИТНЫЙ ЭКРАН (БЛОКИРОВКА ПРЯМОГО ДОСТУПА) -->
+    <div id="security-lock">
         <div class="lock-box">
             <h2>⚠️ Ошибка соединения</h2>
             <p>Сайт <b>Кибер-Даня-Windows-X</b> неожиданно оборвал соединение. Пожалуйста, зайди через Telegram-бота, чтобы соединение было восстановлено.</p>
@@ -189,6 +192,14 @@
                     </table>
                 </div>
 
+                <!-- СПОНСОРСКИЙ БЛОК ©CODE VPN НА ГЛАВНОМ ЭКРАНЕ -->
+                <div class="telegram-box" style="border-color: var(--neon-pink);">
+                    <h3>🌐 Спонсор ©CODE VPN</h3>
+                    <p>Хочешь свободного интернета, безлимитного, а главное — рабочего? Нажми кнопку ниже, чтобы скопировать ключ подписки и вставить его в свой клиент!</p>
+                    <button class="copy-sub-btn" onclick="copyVpnSubscription()">📋 Скопировать ключ подписки</button>
+                </div>
+
+                <!-- Блок усиленной верификации -->
                 <div class="telegram-box">
                     <h3>🛡 Усиленная верификация и ключи</h3>
                     <p>Загрузите свой файл верификации <b>KDXK.dat</b> с набором ключей для мгновенной авторизации под вашим личным профилем:</p>
@@ -265,25 +276,39 @@
     </footer>
 
     <script>
-        // СИСТЕМА АНТИЗАЩИТЫ И ПРОВЕРКИ ИСТОЧНИКА ВХОДА
+        // АНТИЗАЩИТА И ПРОВЕРКА ИСТОЧНИКА ВХОДА
         const urlParams = new URLSearchParams(window.location.search);
         const isFromTelegram = urlParams.get('verified') === 'true' || window.Telegram?.WebApp?.initDataUnsafe?.user;
         const isAdminBypass = localStorage.getItem('kdx_admin_bypass') === 'true';
 
-        // Если зашли просто с сайта и это не админ — блокируем загрузку
         if (!isFromTelegram && !isAdminBypass) {
             document.getElementById('security-lock').style.display = 'flex';
             document.getElementById('cloud-loader').style.display = 'none';
         } else {
-            // Если это админ (Даня), даем права байпаса
             if (!isAdminBypass && urlParams.get('verified') === 'true') {
                 localStorage.setItem('kdx_admin_bypass', 'true');
             }
         }
 
+        // Функция копирования спонсорской ссылки ©CODE VPN
+        function copyVpnSubscription() {
+            const vpnUrl = "https://pozor.bond/sub/ryz156w0996b";
+            navigator.clipboard.writeText(vpnUrl).then(() => {
+                alert("📋 Ключ подписки ©CODE VPN успешно скопирован в буфер обмена!\nВставьте его в свой VPN-клиент.");
+            }).catch(err => {
+                // Запасной метод копирования для старых браузеров
+                const textArea = document.createElement("textarea");
+                textArea.value = vpnUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                alert("📋 Ключ подписки ©CODE VPN скопирован!");
+            });
+        }
+
         const iconsList = ['🐍', '⚡', '🏓', '🧠', '🚚', '🔢', '❌', '🦅', '🤖', '🚀', '💻', '🔐', '🏎️', '🌀', '🛡️', '🐱', '⭐', '🔥', '💎', '🎯', '⚙️', '🌌', '🔋', '🏆'];
         
-        // 90 обычных игр
         const mainGamesList = [];
         for (let i = 1; i <= 90; i++) {
             let isMath = i % 3 === 0;
@@ -297,7 +322,6 @@
             });
         }
 
-        // 60 бета-игр
         const betaGamesList = [];
         for (let i = 1; i <= 60; i++) {
             let isMath = i % 2 === 0;
@@ -311,6 +335,7 @@
             });
         }
 
+        // Инициализация профилей и общего облака
         if (!localStorage.getItem('kdx_username')) {
             localStorage.setItem('kdx_username', 'Киберпортал (Админ)');
             localStorage.setItem('kdx_xp', '1000');
@@ -328,6 +353,13 @@
             { rank: 2, name: 'Папа (Семья)', wins: 45, xp: 920, status: 'В сети' },
             { rank: 3, name: 'Fenix_Cat', wins: 42, xp: 950, status: 'В сети' }
         ];
+
+        // Автоматически добавляем нового игрока из бота в общее онлайн-облако
+        let existingPlayer = leaderboardData.find(p => p.name.includes(currentUser));
+        if (!existingPlayer) {
+            leaderboardData.push({ rank: leaderboardData.length + 1, name: currentUser, wins: 1, xp: currentXp, status: 'В сети' });
+            localStorage.setItem('kdx_leaderboard', JSON.stringify(leaderboardData));
+        }
 
         window.onload = function() {
             setTimeout(() => {
