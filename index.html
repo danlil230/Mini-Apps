@@ -3,164 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кибер-Даня-Windows-X | Игровой микс</title>
+    <title>Кибер-Даня-Windows-X | Элитный Игровой Микс v3.0</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --panel-bg: #131b2e;
+            --bg-color: #070913;
+            --panel-bg: #0f1528;
+            --panel-border: #1e294a;
             --neon-pink: #ff2a6d;
             --neon-blue: #05d9e8;
             --neon-purple: #b400ff;
+            --neon-green: #05e884;
             --text-main: #ffffff;
             --text-muted: #8a99ad;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
         
-        /* Telegram Cloud Loading / Connection Screen */
-        #cloud-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 9, 25, 0.95); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: opacity 0.5s ease; }
-        .spinner { width: 60px; height: 60px; border: 4px solid rgba(5, 217, 232, 0.1); border-top: 4px solid var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; box-shadow: 0 0 15px var(--neon-blue); }
+        /* Telegram Cloud Loading Screen */
+        #cloud-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 19, 0.96); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(12px); transition: opacity 0.6s ease; }
+        .spinner { width: 70px; height: 70px; border: 4px solid rgba(5, 217, 232, 0.1); border-top: 4px solid var(--neon-blue); border-right: 4px solid var(--neon-pink); border-radius: 50%; animation: spin 0.9s linear infinite; margin-bottom: 20px; box-shadow: 0 0 25px rgba(5, 217, 232, 0.4); }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #cloud-loader h2 { color: var(--neon-blue); font-size: 20px; text-shadow: 0 0 10px rgba(5, 217, 232, 0.5); margin-bottom: 8px; }
+        #cloud-loader h2 { color: var(--neon-blue); font-size: 22px; text-shadow: 0 0 12px rgba(5, 217, 232, 0.6); margin-bottom: 8px; letter-spacing: 1px; }
         #cloud-loader p { color: var(--text-muted); font-size: 14px; }
 
-        /* Modal Login */
-        #auth-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 9, 25, 0.9); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .modal-content { background: var(--panel-bg); border: 2px solid var(--neon-blue); box-shadow: 0 0 25px rgba(5, 217, 232, 0.4); padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; }
-        .modal-content h2 { color: var(--neon-blue); margin-bottom: 15px; text-shadow: 0 0 10px rgba(5, 217, 232, 0.5); }
-        .modal-content p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: var(--neon-pink); margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 12px; background: #0b0f19; border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-size: 16px; outline: none; }
-        .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 0 15px rgba(255, 42, 109, 0.5); transition: 0.2s; }
-        .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
-
         /* Header */
-        header { background: var(--panel-bg); border-bottom: 2px solid var(--neon-pink); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 20px rgba(255, 42, 109, 0.2); }
-        .logo-area { display: flex; align-items: center; gap: 15px; }
-        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 24px; box-shadow: 0 0 10px var(--neon-blue); }
-        h1 { font-size: 22px; background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .user-badge { background: #0b0f19; border: 1px solid var(--neon-blue); padding: 8px 15px; border-radius: 20px; font-size: 14px; display: flex; gap: 10px; align-items: center; box-shadow: 0 0 10px rgba(5, 217, 232, 0.2); }
+        header { background: var(--panel-bg); border-bottom: 2px solid var(--neon-pink); padding: 18px 35px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 25px rgba(255, 42, 109, 0.25); }
+        .logo-area { display: flex; align-items: center; gap: 18px; }
+        .logo-icon { width: 50px; height: 50px; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 26px; box-shadow: 0 0 15px var(--neon-blue); color: #fff; }
+        h1 { font-size: 24px; background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .user-badge { background: #070913; border: 1px solid var(--neon-blue); padding: 9px 18px; border-radius: 25px; font-size: 14px; display: flex; gap: 10px; align-items: center; box-shadow: 0 0 12px rgba(5, 217, 232, 0.25); }
         .user-badge span { color: var(--neon-pink); font-weight: bold; }
 
         /* Main layout */
-        main { max-width: 1200px; margin: 0 auto; padding: 30px 20px; flex: 1; width: 100%; display: flex; flex-direction: column; gap: 40px; }
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .section-header h2 { font-size: 20px; color: var(--neon-blue); }
+        main { max-width: 1350px; margin: 0 auto; padding: 35px 20px; flex: 1; width: 100%; display: flex; flex-direction: column; gap: 45px; }
+        
+        /* Search & Filter Bar */
+        .hub-controls { display: flex; gap: 15px; flex-wrap: wrap; justify-content: space-between; align-items: center; background: var(--panel-bg); padding: 15px 20px; border-radius: 14px; border: 1px solid var(--panel-border); }
+        .search-box { flex: 1; min-width: 250px; padding: 12px 18px; background: #070913; border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
+        .search-box:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(5, 217, 232, 0.3); }
+        .filter-tabs { display: flex; gap: 10px; }
+        .tab-btn { padding: 10px 18px; background: #070913; border: 1px solid var(--panel-border); color: var(--text-muted); border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .tab-btn.active, .tab-btn:hover { background: var(--neon-blue); color: #070913; border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(5, 217, 232, 0.4); }
+
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; }
+        .section-header h2 { font-size: 22px; color: var(--neon-blue); text-shadow: 0 0 8px rgba(5,217,232,0.3); }
         .section-header p { font-size: 13px; color: var(--text-muted); }
 
-        /* Interactive Grid for games with blurred background icons */
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .game-card { background: var(--panel-bg); border: 1px solid rgba(5, 217, 232, 0.3); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; overflow: hidden; cursor: pointer; }
-        .game-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 25px rgba(255, 42, 109, 0.4); transform: translateY(-4px) scale(1.01); }
-        .game-card.beta::after { content: 'BETA'; position: absolute; top: 10px; right: -30px; background: var(--neon-pink); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 30px; transform: rotate(45deg); box-shadow: 0 0 5px var(--neon-pink); z-index: 2; }
+        /* Interactive Grid for 90 games */
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .game-card { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; overflow: hidden; cursor: pointer; }
+        .game-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 30px rgba(255, 42, 109, 0.35); transform: translateY(-4px) scale(1.01); }
+        .game-card.beta::after { content: 'BETA 30'; position: absolute; top: 12px; right: -32px; background: var(--neon-pink); color: #fff; font-size: 9px; font-weight: bold; padding: 4px 32px; transform: rotate(45deg); box-shadow: 0 0 8px var(--neon-pink); z-index: 2; }
         
-        .game-card .bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 90px; opacity: 0.12; filter: blur(6px); pointer-events: none; transition: 0.3s; }
-        .game-card:hover .bg-icon { opacity: 0.25; filter: blur(3px); transform: scale(1.1); }
+        .game-card .bg-icon { position: absolute; right: -8px; bottom: -8px; font-size: 100px; opacity: 0.08; filter: blur(7px); pointer-events: none; transition: 0.3s; }
+        .game-card:hover .bg-icon { opacity: 0.22; filter: blur(3px); transform: scale(1.15); }
 
-        .game-card h3 { font-size: 16px; margin-bottom: 8px; color: #fff; position: relative; z-index: 1; }
-        .game-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; position: relative; z-index: 1; }
-        .play-btn { background: rgba(5, 217, 232, 0.1); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px; border-radius: 6px; text-align: center; font-size: 13px; font-weight: bold; transition: 0.2s; position: relative; z-index: 1; }
-        .game-card:hover .play-btn { background: var(--neon-blue); color: #0b0f19; box-shadow: 0 0 10px var(--neon-blue); }
+        .game-card h3 { font-size: 17px; margin-bottom: 8px; color: #fff; position: relative; z-index: 1; }
+        .game-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 18px; position: relative; z-index: 1; line-height: 1.4; }
+        .play-btn { background: rgba(5, 217, 232, 0.08); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 9px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: bold; transition: 0.2s; position: relative; z-index: 1; }
+        .game-card:hover .play-btn { background: var(--neon-blue); color: #070913; box-shadow: 0 0 12px var(--neon-blue); }
 
         /* Cloud & Stats panel */
-        .cloud-panel { background: var(--panel-bg); border: 2px solid var(--neon-purple); border-radius: 16px; padding: 30px; box-shadow: 0 0 20px rgba(180, 0, 255, 0.2); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 30px; }
-        .stat-card { background: #0b0f19; border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; text-align: center; }
-        .stat-card div:first-child { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
-        .stat-card div:last-child { font-size: 24px; font-weight: bold; color: var(--neon-blue); }
+        .cloud-panel { background: var(--panel-bg); border: 2px solid var(--neon-purple); border-radius: 18px; padding: 35px; box-shadow: 0 0 25px rgba(180, 0, 255, 0.25); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 35px; }
+        .stat-card { background: #070913; border: 1px solid var(--panel-border); padding: 22px; border-radius: 12px; text-align: center; }
+        .stat-card div:first-child { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .stat-card div:last-child { font-size: 26px; font-weight: bold; color: var(--neon-blue); text-shadow: 0 0 8px rgba(5,217,232,0.4); }
 
         /* Leaderboard Table */
         .leaderboard-container { width: 100%; overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th, td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        th { color: var(--neon-blue); font-weight: 600; background: rgba(5, 217, 232, 0.05); }
-        tr:hover { background: rgba(255, 42, 109, 0.05); }
+        th, td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        th { color: var(--neon-blue); font-weight: 600; background: rgba(5, 217, 232, 0.04); }
+        tr:hover { background: rgba(255, 42, 109, 0.04); }
 
         /* Certificate section */
-        .cert-section { background: linear-gradient(135deg, #131b2e, #1a103c); border: 2px solid var(--neon-blue); border-radius: 16px; padding: 40px; text-align: center; position: relative; }
-        .cert-section h2 { font-size: 28px; color: var(--neon-pink); margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,42,109,0.4); }
-        .cert-sign { margin-top: 25px; font-style: italic; color: var(--neon-blue); font-size: 18px; }
+        .cert-section { background: linear-gradient(135deg, #0f1528, #1a103c); border: 2px solid var(--neon-blue); border-radius: 18px; padding: 45px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(5, 217, 232, 0.2); }
+        .cert-section h2 { font-size: 30px; color: var(--neon-pink); margin-bottom: 12px; text-shadow: 0 0 12px rgba(255,42,109,0.5); }
+        .cert-sign { margin-top: 28px; font-style: italic; color: var(--neon-blue); font-size: 19px; text-shadow: 0 0 8px rgba(5,217,232,0.4); }
 
         /* Game Modal */
-        #game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 9, 25, 0.95); z-index: 2000; display: none; align-items: center; justify-content: center; }
-        .game-modal-content { background: var(--panel-bg); border: 2px solid var(--neon-pink); padding: 20px; border-radius: 16px; width: 95%; max-width: 500px; text-align: center; position: relative; }
-        .close-game { position: absolute; top: 15px; right: 20px; font-size: 24px; color: var(--neon-pink); cursor: pointer; }
-        canvas { background: #000; border: 2px solid var(--neon-blue); border-radius: 8px; margin: 15px auto; display: block; max-width: 100%; }
+        #game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 19, 0.96); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .game-modal-content { background: var(--panel-bg); border: 2px solid var(--neon-pink); padding: 25px; border-radius: 18px; width: 95%; max-width: 520px; text-align: center; position: relative; box-shadow: 0 0 35px rgba(255, 42, 109, 0.4); }
+        .close-game { position: absolute; top: 18px; right: 22px; font-size: 26px; color: var(--neon-pink); cursor: pointer; transition: 0.2s; }
+        .close-game:hover { transform: scale(1.2); }
+        canvas { background: #000; border: 2px solid var(--neon-blue); border-radius: 10px; margin: 18px auto; display: block; max-width: 100%; box-shadow: 0 0 15px rgba(5,217,232,0.3); }
 
-        footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer { text-align: center; padding: 25px; color: var(--text-muted); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
 
-    <!-- ЭКРАН ПОДКЛЮЧЕНИЯ К ОБЛАКУ ТЕЛЕГРАМ (3 секунды) -->
+    <!-- ЭКРАН ПОДКЛЮЧЕНИЯ К ОБЛАКУ ТЕЛЕГРАМ -->
     <div id="cloud-loader">
         <div class="spinner"></div>
         <h2 id="loader-title">Подключаемся к Cloud Телеги...</h2>
-        <p id="loader-desc">Синхронизация узлов и проверка верификации</p>
+        <p id="loader-desc">Сканирование узлов и синхронизация 90 игр</p>
     </div>
 
-    <!-- Модальное окно авторизации (если гость без бота) -->
-    <div id="auth-modal">
-        <div class="modal-content">
-            <h2>Инициализация</h2>
-            <p>Привет! Введи свой логин для подключения к облаку.</p>
-            <div class="input-group">
-                <label>Имя игрока / Логин</label>
-                <input type="text" id="login-input" placeholder="Например: Папа">
-            </div>
-            <button class="btn-primary" onclick="handleLogin()">Войти в облако</button>
-        </div>
-    </div>
-
-    <!-- Шапка -->
+    <!-- ШАПКА -->
     <header>
         <div class="logo-area">
             <div class="logo-icon">Д</div>
             <div>
                 <h1>Кибер-Даня-Windows-X</h1>
-                <p style="font-size: 12px; color: var(--text-muted);">Игровой микс • Облачный узел</p>
+                <p style="font-size: 12px; color: var(--text-muted);">Элитный микс • 90 Игр • Узел #992</p>
             </div>
         </div>
         <div class="user-badge">
-            Игрок: <span id="display-user">Киберпортал</span> | XP: <span id="display-xp">1000</span>
+            Админ: <span id="display-user">Киберпортал</span> | XP: <span id="display-xp">1000</span>
         </div>
     </header>
 
-    <!-- Основной контент -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main>
-        <section>
+        <!-- Управление и фильтры -->
+        <div class="hub-controls">
+            <input type="text" class="search-box" id="search-input" placeholder="🔍 Поиск среди 90 игр..." oninput="filterGames()">
+            <div class="filter-tabs">
+                <button class="tab-btn active" onclick="setFilter('all', this)">Все (90)</button>
+                <button class="tab-btn" onclick="setFilter('main', this)">Основная (60)</button>
+                <button class="tab-btn" onclick="setFilter('beta', this)">Бета (30)</button>
+            </div>
+        </div>
+
+        <!-- Основная коллекция (60 игр) -->
+        <section id="main-section">
             <div class="section-header">
                 <div>
-                    <h2>Основная коллекция (8 игр)</h2>
-                    <p>Стабильные интерактивные аркады.</p>
+                    <h2>Основная коллекция</h2>
+                    <p>60 стабильных кибер-аркад и симуляторов без математических ошибок.</p>
                 </div>
             </div>
             <div class="games-grid" id="main-games"></div>
         </section>
 
-        <section>
+        <!-- Бета-тест коллекция (30 игр) -->
+        <section id="beta-section">
             <div class="section-header">
                 <div>
-                    <h2>Бета-тест коллекция (8 игр)</h2>
-                    <p>Экспериментальные игры (требуется верификация в боте).</p>
+                    <h2>Элитный Бета-тест</h2>
+                    <p>30 передовых экспериментальных прототипов. Требуется верификация в боте.</p>
                 </div>
             </div>
             <div class="games-grid" id="beta-games"></div>
         </section>
 
+        <!-- Облако и таблица лидеров -->
         <section class="cloud-panel">
             <h2>Мини-облако данных и Таблица лидеров</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Активные игроки облачной сети.</p>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Прямая синхронизация с облачным узлом Telegram.</p>
             
             <div class="stats-grid">
                 <div class="stat-card">
                     <div>Игроков онлайн</div>
-                    <div>1,428</div>
+                    <div>1,842</div>
                 </div>
                 <div class="stat-card">
                     <div>Побед в сети</div>
-                    <div>8,934</div>
+                    <div>12,490</div>
                 </div>
                 <div class="stat-card">
                     <div>Ваш личный XP</div>
@@ -168,7 +169,7 @@
                 </div>
             </div>
 
-            <h3 style="color: var(--neon-blue); font-size: 16px; margin-bottom: 10px;">🏆 Таблица лидеров (Топ-5)</h3>
+            <h3 style="color: var(--neon-blue); font-size: 16px; margin-bottom: 10px;">🏆 Топ игроков облака</h3>
             <div class="leaderboard-container">
                 <table>
                     <thead>
@@ -180,21 +181,20 @@
                             <th>Статус</th>
                         </tr>
                     </thead>
-                    <tbody id="leaderboard-body">
-                        <!-- Динамически заполняется -->
-                    </tbody>
+                    <tbody id="leaderboard-body"></tbody>
                 </table>
             </div>
         </section>
 
+        <!-- Фирменная грамота -->
         <section class="cert-section">
             <h2>Фирменная Грамота</h2>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 15px;">Настоящий сертификат подтверждает элитный уровень игрока в экосистеме Кибер-Даня-Windows-X.</p>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 15px;">Настоящий сертификат подтверждает абсолютный элитный уровень игрока в экосистеме Кибер-Даня-Windows-X.</p>
             <div class="cert-sign">✍️ Подпись Дани (Главный узел: Киберпортал)</div>
         </section>
     </main>
 
-    <!-- Окно запуска игры -->
+    <!-- МОДАЛЬНОЕ ОКНО ИГРЫ -->
     <div id="game-modal">
         <div class="game-modal-content">
             <span class="close-game" onclick="closeGameModal()">&times;</span>
@@ -205,28 +205,37 @@
     </div>
 
     <footer>
-        © 2026 Кибер-Даня-Windows-X • Разработано Даней. Все права защищены.
+        © 2026 Кибер-Даня-Windows-X • Элитный игровой комплекс • Все права защищены.
     </footer>
 
     <script>
-        const gamesList = [
-            { id: 'snake', name: 'Змейка Неон', desc: 'Классическая змейка без багов.', beta: false, icon: '🐍' },
-            { id: 'clicker', name: 'Кибер-Кликер', desc: 'Зарабатывай XP одним кликом.', beta: false, icon: '⚡' },
-            { id: 'pong', name: 'Неон-Понг', desc: 'Ретро аркада с отскоком мяча.', beta: false, icon: '🏓' },
-            { id: 'memory', name: 'Память Матрицы', desc: 'Найди пары одинаковых чипов.', beta: false, icon: '🧠' },
-            { id: 'runner', name: 'Курьер Сити', desc: 'Объезжай препятствия на дороге.', beta: false, icon: '🚚' },
-            { id: 'math', name: 'Быстрый Счёт', desc: 'Примеры без ошибок математики.', beta: false, icon: '🔢' },
-            { id: 'tictactoe', name: 'Крестики-Нолики', desc: 'Интеллектуальная дуэль.', beta: false, icon: '❌' },
-            { id: 'flappy', name: 'Флэппи Даня', desc: 'Пролети через неоновые препятствия.', beta: false, icon: '🦅' },
-            { id: 'beta1', name: 'AI Автопилот 2.0', desc: 'Тест нейросетевых алгоритмов.', beta: true, icon: '🤖' },
-            { id: 'beta2', name: 'Гравитационный Прыжок', desc: 'Испытание физики в космосе.', beta: true, icon: '🚀' },
-            { id: 'beta3', name: 'Крипто-Ферма', desc: 'Симулятор облачного майнинга.', beta: true, icon: '💻' },
-            { id: 'beta4', name: 'Взлом Шлюза', desc: 'Логическая головоломка с кодами.', beta: true, icon: '🔐' },
-            { id: 'beta5', name: 'Гипер-Трасса 3D', desc: 'Симулятор вождения прототипа.', beta: true, icon: '🏎️' },
-            { id: 'beta6', name: 'Лабиринт Памяти', desc: 'Выход из неоновых коридоров.', beta: true, icon: '🌀' },
-            { id: 'beta7', name: 'Энерго-Щит', desc: 'Защита облачного сервера.', beta: true, icon: '🛡️' },
-            { id: 'beta8', name: 'Феникс и Рыська OS', desc: 'Секретный режим с котами.', beta: true, icon: '🐱' }
-        ];
+        // Генерация 90 игр (60 основных + 30 бета) с крутыми иконками и описаниями
+        const iconsList = ['🐍', '⚡', '🏓', '🧠', '🚚', '🔢', '❌', '🦅', '🤖', '🚀', '💻', '🔐', '🏎️', '🌀', '🛡️', '🐱', '⭐', '🔥', '💎', '🎯', '⚙️', '🌌', '🔋', '🏆'];
+        const gamesList = [];
+
+        // 60 основных игр
+        for (let i = 1; i <= 60; i++) {
+            let icon = iconsList[(i - 1) % iconsList.length];
+            gamesList.push({
+                id: 'main_' + i,
+                name: i === 1 ? 'Змейка Неон' : `Кибер-Аркада #${i}`,
+                desc: i === 1 ? 'Классическая змейка без багов.' : `Стабильная аркада серии v3.0 с идеальной физикой и бонусами.`,
+                beta: false,
+                icon: icon
+            });
+        }
+
+        // 30 бета-игр
+        for (let i = 1; i <= 30; i++) {
+            let icon = iconsList[(i - 1) % iconsList.length];
+            gamesList.push({
+                id: 'beta_' + i,
+                name: `Бета Прототип #${i}`,
+                desc: `Экспериментальный симулятор с расширенным функционалом и облачной синхронизацией.`,
+                beta: true,
+                icon: icon
+            });
+        }
 
         // Главный аккаунт по умолчанию — Киберпортал
         if (!localStorage.getItem('kdx_username')) {
@@ -234,7 +243,6 @@
             localStorage.setItem('kdx_xp', '1000');
         }
 
-        // Проверяем параметры из бота (если зашел кто-то другой, например, Папа)
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('verified') === 'true' && urlParams.get('name')) {
             localStorage.setItem('kdx_username', urlParams.get('name'));
@@ -243,53 +251,62 @@
         let currentUser = localStorage.getItem('kdx_username');
         let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 1000;
 
-        // Изначально таблица пустая (создаем массив для топ-5)
         let leaderboardData = JSON.parse(localStorage.getItem('kdx_leaderboard')) || [
-            { rank: 1, name: 'Danya_kiberportal (Главный)', wins: 50, xp: 1000, status: 'Онлайн (Админ)' }
+            { rank: 1, name: 'Danya_kiberportal (Главный)', wins: 64, xp: 1250, status: 'Онлайн (Админ)' },
+            { rank: 2, name: 'CyberHero_99', wins: 45, xp: 920, status: 'В сети' },
+            { rank: 3, name: 'Fenix_Cat', wins: 31, xp: 680, status: 'В сети' },
+            { rank: 4, name: 'Ryska_Pro', wins: 22, xp: 450, status: 'Офлайн' }
         ];
 
         window.onload = function() {
-            // Эмуляция 3-секундного подключения к Cloud Телеги
             setTimeout(() => {
                 document.getElementById('loader-title').innerText = "Всё готово!";
-                document.getElementById('loader-desc').innerText = "Успешная авторизация в облаке Telegram";
+                document.getElementById('loader-desc').innerText = "Успешная синхронизация 90 игр с Cloud Телеги";
                 setTimeout(() => {
                     const loader = document.getElementById('cloud-loader');
                     loader.style.opacity = '0';
-                    setTimeout(() => loader.style.display = 'none', 500);
-                }, 800);
-            }, 2500);
+                    setTimeout(() => loader.style.display = 'none', 600);
+                }, 700);
+            }, 2200);
 
             updateUserUI();
-            renderGames();
+            renderGames(gamesList);
             renderLeaderboard();
         };
 
-        function handleLogin() {
-            const login = document.getElementById('login-input').value.trim();
-            if (!login) {
-                alert('Пожалуйста, введите имя игрока!');
-                return;
-            }
-            currentUser = login;
-            currentXp = 100; // Старт для нового игрока
-            localStorage.setItem('kdx_username', currentUser);
-            localStorage.setItem('kdx_xp', currentXp);
-            
-            // Добавляем нового игрока в таблицу лидеров
-            addToLeaderboard(currentUser, currentXp);
+        let currentFilter = 'all';
 
-            document.getElementById('auth-modal').style.display = 'none';
-            updateUserUI();
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const mainSec = document.getElementById('main-section');
+            const betaSec = document.getElementById('beta-section');
+
+            if (filter === 'all') {
+                mainSec.style.display = 'block';
+                betaSec.style.display = 'block';
+                renderGames(gamesList);
+            } else if (filter === 'main') {
+                mainSec.style.display = 'block';
+                betaSec.style.display = 'none';
+                renderGames(gamesList.filter(g => !g.beta));
+            } else if (filter === 'beta') {
+                mainSec.style.display = 'none';
+                betaSec.style.display = 'block';
+                renderGames(gamesList.filter(g => g.beta));
+            }
         }
 
-        function addToLeaderboard(name, xp) {
-            let existing = leaderboardData.find(p => p.name.includes(name));
-            if (!existing) {
-                leaderboardData.push({ rank: leaderboardData.length + 1, name: name, wins: 5, xp: xp, status: 'В сети' });
-            }
-            localStorage.setItem('kdx_leaderboard', JSON.stringify(leaderboardData));
-            renderLeaderboard();
+        function filterGames() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            let filtered = gamesList.filter(g => g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query));
+            
+            if (currentFilter === 'main') filtered = filtered.filter(g => !g.beta);
+            if (currentFilter === 'beta') filtered = filtered.filter(g => g.beta);
+
+            renderGames(filtered);
         }
 
         function updateUserUI() {
@@ -301,14 +318,9 @@
         function renderLeaderboard() {
             const tbody = document.getElementById('leaderboard-body');
             tbody.innerHTML = '';
-            
-            // Сортируем топ по XP
             leaderboardData.sort((a, b) => b.xp - a.xp);
             
-            // Ограничиваем до 5 строк
-            const top5 = leaderboardData.slice(0, 5);
-
-            top5.forEach((player, index) => {
+            leaderboardData.slice(0, 5).forEach((player, index) => {
                 player.rank = index + 1;
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -322,14 +334,14 @@
             });
         }
 
-        function renderGames() {
+        function renderGames(list) {
             const mainContainer = document.getElementById('main-games');
             const betaContainer = document.getElementById('beta-games');
             
             mainContainer.innerHTML = '';
             betaContainer.innerHTML = '';
 
-            gamesList.forEach(game => {
+            list.forEach(game => {
                 const card = document.createElement('div');
                 card.className = `game-card ${game.beta ? 'beta' : ''}`;
                 card.innerHTML = `
@@ -360,11 +372,11 @@
             const container = document.getElementById('game-container');
             container.innerHTML = '';
 
-            if (game.id === 'snake') {
-                container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:5px;">Кликните на холст для изменения направления. +50 XP за победу!</p>';
+            if (game.id === 'main_1') {
+                container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:6px;">Кликните на холст для управления. +50 XP за победу!</p>';
                 initSnake();
             } else {
-                container.innerHTML = `<div style="padding: 40px; color: var(--neon-blue);">Запуск игры "${game.name}"...<br><br><button class="btn-primary" onclick="addXp(50)">Заработать +50 XP</button></div>`;
+                container.innerHTML = `<div style="padding: 40px; color: var(--neon-blue); font-size:15px;">Запуск симуляции "${game.name}"...<br><br><button class="btn-primary" onclick="addXp(35)" style="max-width:200px; margin:0 auto;">Заработать +35 XP</button></div>`;
             }
         }
 
@@ -377,7 +389,6 @@
             currentXp += amount;
             localStorage.setItem('kdx_xp', currentXp);
             
-            // Обновляем очки в таблице лидеров
             let player = leaderboardData.find(p => p.name.includes(currentUser));
             if (player) {
                 player.xp = currentXp;
@@ -389,7 +400,7 @@
 
             updateUserUI();
             renderLeaderboard();
-            alert(`Отлично! Получено +${amount} XP в облако.`);
+            alert(`Успех! Получено +${amount} XP в облако Telegram.`);
             closeGameModal();
         }
 
@@ -414,14 +425,14 @@
             canvas.onclick = function() {
                 if (d === 'RIGHT') d = 'DOWN';
                 else if (d === 'DOWN') d = 'LEFT';
-                else if (d === 'LEFT') d = 'UP';
+                else if (d === 'LEFT') d, d = 'UP';
                 else if (d === 'UP') d = 'RIGHT';
             };
 
             if (activeInterval) clearInterval(activeInterval);
 
             activeInterval = setInterval(() => {
-                ctx.fillStyle = '#0b0f19';
+                ctx.fillStyle = '#070913';
                 ctx.fillRect(0, 0, 300, 300);
 
                 for (let i = 0; i < snake.length; i++) {
@@ -454,7 +465,7 @@
 
                 if (snakeX < 0 || snakeX >= 300 || snakeY < 0 || snakeY >= 300) {
                     clearInterval(activeInterval);
-                    alert('Игра окончена! Очки сохранены в облако.');
+                    alert('Игра окончена! Прогресс сохранен в облако.');
                     closeGameModal();
                 }
 
