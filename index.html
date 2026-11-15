@@ -75,7 +75,7 @@
 </head>
 <body>
 
-    <!-- Модальное окно авторизации при входе -->
+    <!-- Модальное окно авторизации (скрывается, если уже вошел) -->
     <div id="auth-modal">
         <div class="modal-content">
             <h2>Инициализация</h2>
@@ -109,7 +109,6 @@
 
     <!-- Основной контент -->
     <main>
-        <!-- Основная коллекция (8 игр) -->
         <section>
             <div class="section-header">
                 <div>
@@ -120,7 +119,6 @@
             <div class="games-grid" id="main-games"></div>
         </section>
 
-        <!-- Бета-тест коллекция (8 игр) -->
         <section>
             <div class="section-header">
                 <div>
@@ -131,7 +129,6 @@
             <div class="games-grid" id="beta-games"></div>
         </section>
 
-        <!-- Мини-облако -->
         <section class="cloud-panel">
             <h2>Мини-облако данных</h2>
             <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Синхронизация рекордов в реальном времени.</p>
@@ -151,7 +148,6 @@
             </div>
         </section>
 
-        <!-- Фирменная грамота -->
         <section class="cert-section">
             <h2>Фирменная Грамота</h2>
             <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 15px;">Настоящий сертификат подтверждает элитный уровень игрока в экосистеме Кибер-Даня-Windows-X.</p>
@@ -174,9 +170,7 @@
     </footer>
 
     <script>
-        // Список из 16 игр (8 основных + 8 бета)
         const gamesList = [
-            // Основные 8
             { id: 'snake', name: 'Змейка Неон', desc: 'Классическая змейка без багов.', beta: false },
             { id: 'clicker', name: 'Кибер-Кликер', desc: 'Зарабатывай XP одним кликом.', beta: false },
             { id: 'pong', name: 'Неон-Понг', desc: 'Ретро аркада с отскоком мяча.', beta: false },
@@ -185,7 +179,6 @@
             { id: 'math', name: 'Быстрый Счёт', desc: 'Примеры без ошибок математики.', beta: false },
             { id: 'tictactoe', name: 'Крестики-Нолики', desc: 'Интеллектуальная дуэль.', beta: false },
             { id: 'flappy', name: 'Флэппи Даня', desc: 'Пролети через неоновые препятствия.', beta: false },
-            // Бета 8
             { id: 'beta1', name: 'AI Автопилот 2.0', desc: 'Тест нейросетевых алгоритмов.', beta: true },
             { id: 'beta2', name: 'Гравитационный Прыжок', desc: 'Испытание физики в космосе.', beta: true },
             { id: 'beta3', name: 'Крипто-Ферма', desc: 'Симулятор облачного майнинга.', beta: true },
@@ -196,12 +189,18 @@
             { id: 'beta8', name: 'Феникс и Рыська OS', desc: 'Секретный режим с котами.', beta: true }
         ];
 
-        // Проверка локального хранилища (localStorage вместо sessionStorage — чтобы не слетало при обновлении!)
+        // Проверяем параметры из ссылки (если игрок пришел из бота после верификации)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('verified') === 'true' && urlParams.get('name')) {
+            localStorage.setItem('kdx_username', urlParams.get('name'));
+        }
+
         let currentUser = localStorage.getItem('kdx_username');
         let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 0;
 
         window.onload = function() {
             if (currentUser) {
+                // Если пользователь уже зарегистрирован или пришел из бота — сразу скрываем окно входа!
                 document.getElementById('auth-modal').style.display = 'none';
                 updateUserUI();
             }
@@ -266,7 +265,7 @@
             container.innerHTML = '';
 
             if (game.id === 'snake') {
-                container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:5px;">Используйте клик/тапы для управления. +50 XP за победу!</p>';
+                container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:5px;">Кликните на холст для изменения направления. +50 XP за победу!</p>';
                 initSnake();
             } else {
                 container.innerHTML = `<div style="padding: 40px; color: var(--neon-blue);">Запуск игры "${game.name}"...<br><br><button class="btn-primary" onclick="addXp(25)">Заработать +25 XP</button></div>`;
@@ -286,7 +285,6 @@
             closeGameModal();
         }
 
-        // Полноценная рабочая Змейка без багов
         function initSnake() {
             const canvas = document.getElementById('snakeCanvas');
             const ctx = canvas.getContext('2d');
@@ -305,7 +303,6 @@
                 else if (event.keyCode == 40 && d != 'UP') d = 'DOWN';
             };
 
-            // Клик для управления на мобильных телефонах
             canvas.onclick = function() {
                 if (d === 'RIGHT') d = 'DOWN';
                 else if (d === 'DOWN') d = 'LEFT';
@@ -340,7 +337,7 @@
                         x: Math.floor(Math.random() * 20) * box,
                         y: Math.floor(Math.random() * 20) * box
                     };
-                    addXp(10); // +10 XP за съеденную еду
+                    addXp(10);
                 } else {
                     snake.pop();
                 }
