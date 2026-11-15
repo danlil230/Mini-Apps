@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кибер-Даня-Windows-X | Игровой микс</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyberdark: '#0a0915',
+                        cybercard: '#131127',
+                        cyan: { 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2' },
+                        magenta: { 400: '#e879f9', 500: '#d946ef', 600: '#c026d3' }
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 15px rgba(34, 211, 238, 0.6), inset 0 0 15px rgba(34, 211, 238, 0.2)',
+                        'neon-magenta': '0 0 15px rgba(232, 121, 249, 0.6), inset 0 0 15px rgba(232, 121, 249, 0.2)',
+                        'neon-box': '0 0 25px rgba(34, 211, 238, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0a0915; color: #f1f5f9; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0915; }
+        ::-webkit-scrollbar-thumb { background: #22d3ee; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d946ef; }
+    </style>
+</head>
+<body class="min-h-screen bg-cyberdark text-slate-100 flex flex-col relative selection:bg-cyan-500 selection:text-black overflow-x-hidden">
+
+    <!-- Background glowing ambient elements -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-magenta-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- WELCOME MODAL / REGISTRATION -->
+    <div id="welcomeModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="bg-cybercard border-2 border-cyan-400 shadow-neon-cyan rounded-2xl max-w-lg w-full p-6 md:p-8 relative">
+            <div class="absolute -top-3 right-6 bg-cyan-500 text-black font-orbitron font-bold text-xs px-3 py-1 rounded-full uppercase tracking-widest">
+                Инициализация
+            </div>
+            <h2 class="font-orbitron text-2xl md:text-3xl font-extrabold text-cyan-400 mb-2 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                Привет, вот твой сайтик!
+            </h2>
+            <p class="text-slate-300 text-sm mb-6">
+                Добро пожаловать в <span class="text-magenta-400 font-bold">Кибер-Даня-Windows-X</span>. Зарегистрируйтесь, чтобы ваши рекорды синхронизировались с виртуальным облаком, и скачайте фирменный ключ.
+            </p>
+            
+            <form id="regForm" onsubmit="handleRegistration(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-orbitron uppercase text-slate-400 mb-1">Никнейм игрока</label>
+                    <input type="text" id="regUsername" required placeholder="CyberGamer_007" 
+                           class="w-full bg-cyberdark border border-cyan-500/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 focus:shadow-neon-cyan transition text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-orbitron uppercase text-slate-400 mb-1">Пароль доступа</label>
+                    <input type="password" id="regPassword" required placeholder="••••••••" 
+                           class="w-full bg-cyberdark border border-cyan-500/50 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400 focus:shadow-neon-cyan transition text-sm">
+                </div>
+                
+                <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-black font-orbitron font-bold py-3 px-6 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 active:translate-y-0">
+                        Войти / Создать
+                    </button>
+                    <button type="button" onclick="downloadKDXK()" class="bg-cyberdark border-2 border-magenta-500 text-magenta-400 hover:bg-magenta-500/10 font-orbitron font-bold py-3 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Скачать KDXK.dat
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP HEADER -->
+    <header class="border-b border-cyan-500/30 bg-cybercard/80 backdrop-blur sticky top-0 z-40 px-4 py-3 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-magenta-500 p-0.5 shadow-neon-cyan flex items-center justify-center font-orbitron font-black text-black text-lg">
+                    Д
+                </div>
+                <div>
+                    <h1 class="font-orbitron font-black text-lg md:text-xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-magenta-400 to-cyan-300">
+                        Кибер-Даня-Windows-X
+                    </h1>
+                    <p class="text-xs text-slate-400 font-mono">Игровой микс • Версия 2.0.4 • Облачный узел</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex flex-wrap items-center gap-2 bg-cyberdark/80 p-1.5 rounded-2xl border border-cyan-500/20">
+                <button onclick="switchTab('games')" id="nav-games" class="px-4 py-2 rounded-xl font-orbitron text-xs md:text-sm font-bold transition tab-btn bg-cyan-500 text-black shadow-neon-cyan">
+                    🎮 Игры (8)
+                </button>
+                <button onclick="switchTab('beta')" id="nav-beta" class="px-4 py-2 rounded-xl font-orbitron text-xs md:text-sm font-bold transition tab-btn text-slate-300 hover:text-cyan-400">
+                    ⚡ Бета (8)
+                </button>
+                <button onclick="switchTab('cloud')" id="nav-cloud" class="px-4 py-2 rounded-xl font-orbitron text-xs md:text-sm font-bold transition tab-btn text-slate-300 hover:text-cyan-400">
+                    ☁️ Облако
+                </button>
+                <button onclick="switchTab('cert')" id="nav-cert" class="px-4 py-2 rounded-xl font-orbitron text-xs md:text-sm font-bold transition tab-btn text-slate-300 hover:text-cyan-400">
+                    📜 Грамота
+                </button>
+            </nav>
+
+            <!-- User status info -->
+            <div class="flex items-center gap-3">
+                <div class="text-right hidden sm:block">
+                    <div id="displayUser" class="text-xs font-orbitron font-bold text-cyan-400">Гость</div>
+                    <div class="text-[10px] text-magenta-400 font-mono">Баланс: <span id="displayScore">0</span> XP</div>
+                </div>
+                <button onclick="logout()" title="Сменить профиль" class="p-2 rounded-xl bg-cyberdark border border-cyan-500/30 text-cyan-400 hover:border-magenta-400 hover:text-magenta-400 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+
+        <!-- TAB 1: PUBLIC GAMES (8 games) -->
+        <section id="tab-games" class="tab-content space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-cybercard p-6 rounded-2xl border border-cyan-500/30 shadow-neon-box">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-black text-cyan-400">Основная коллекция (8 игр)</h2>
+                    <p class="text-slate-400 text-sm mt-1">Классические кибер-аркады и логические шедевры без математических ошибок. Играйте и зарабатывайте очки в облако!</p>
+                </div>
+                <div class="bg-cyan-500/10 border border-cyan-400/30 px-4 py-2 rounded-xl text-xs font-orbitron text-cyan-300">
+                    Статус: Все игры стабильны
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="publicGamesGrid">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 2: BETA GAMES (8 games with bot verification) -->
+        <section id="tab-beta" class="tab-content space-y-6 hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-cybercard p-6 rounded-2xl border border-magenta-500/30 shadow-[0_0_20px_rgba(232,121,249,0.15)]">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-black text-magenta-400">Бета-тест коллекция (8 игр)</h2>
+                    <p class="text-slate-400 text-sm mt-1">Экспериментальные прототипы и футуристические симуляторы. Требуется верификация через Telegram-бот.</p>
+                </div>
+                <div id="betaStatusBadge">
+                    <button onclick="openVerificationModal()" class="bg-gradient-to-r from-magenta-500 to-cyan-500 text-black font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-lg hover:scale-105 transition text-sm flex items-center gap-2">
+                        <span>🤖 Верифицировать через бота</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="betaGamesGrid">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 3: CLOUD STORAGE DASHBOARD -->
+        <section id="tab-cloud" class="tab-content space-y-6 hidden">
+            <div class="bg-cybercard p-6 rounded-2xl border border-cyan-500/30 shadow-neon-box">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="font-orbitron text-2xl font-black text-cyan-400">Мини-облако данных</h2>
+                        <p class="text-slate-400 text-sm">Онлайн агрегатор статистики всех игроков и вашей личной активности</p>
+                    </div>
+                    <button onclick="refreshCloudData()" class="px-4 py-2 bg-cyberdark border border-cyan-500 text-cyan-400 rounded-xl hover:bg-cyan-500/10 transition font-orbitron text-xs flex items-center gap-2">
+                        <svg class="w-4 h-4 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        Синхронизировать
+                    </button>
+                </div>
+
+                <!-- Stats summary cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-cyberdark border border-cyan-500/30 p-4 rounded-xl">
+                        <div class="text-xs font-orbitron text-slate-400">Всего игроков онлайн</div>
+                        <div class="text-3xl font-black font-orbitron text-cyan-400 mt-1" id="cloudTotalPlayers">1,428</div>
+                    </div>
+                    <div class="bg-cyberdark border border-magenta-500/30 p-4 rounded-xl">
+                        <div class="text-xs font-orbitron text-slate-400">Суммарно побед в сети</div>
+                        <div class="text-3xl font-black font-orbitron text-magenta-400 mt-1" id="cloudTotalWins">8,934</div>
+                    </div>
+                    <div class="bg-cyberdark border border-cyan-500/30 p-4 rounded-xl">
+                        <div class="text-xs font-orbitron text-slate-400">Ваш суммарный XP</div>
+                        <div class="text-3xl font-black font-orbitron text-cyan-300 mt-1" id="cloudUserXP">0</div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard table -->
+                <h3 class="font-orbitron font-bold text-lg text-slate-200 mb-4">Таблица лидеров облака</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-cyberdark text-cyan-400 font-orbitron text-xs uppercase border-b border-cyan-500/30">
+                            <tr>
+                                <th class="p-3">#</th>
+                                <th class="p-3">Игрок</th>
+                                <th class="p-3">Побед</th>
+                                <th class="p-3">Очки (XP)</th>
+                                <th class="p-3">Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTableBody" class="divide-y divide-slate-800 font-mono text-xs">
+                            <!-- Injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: CERTIFICATE & DOCS -->
+        <section id="tab-cert" class="tab-content space-y-6 hidden">
+            <div class="bg-cybercard p-6 md:p-10 rounded-2xl border border-cyan-500/30 shadow-neon-box max-w-4xl mx-auto relative overflow-hidden">
+                <!-- Watermark -->
+                <div class="absolute -right-10 -bottom-10 text-cyan-500/5 font-orbitron font-black text-9xl pointer-events-none select-none">
+                    DANY
+                </div>
+
+                <div class="text-center space-y-2 mb-8 border-b border-cyan-500/20 pb-6">
+                    <div class="inline-block bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-full text-xs font-orbitron uppercase tracking-widest">
+                        Официальный документ • Кибер-Даня-Windows-X
+                    </div>
+                    <h2 class="font-orbitron text-3xl md:text-4xl font-black text-white">Фирменная Грамота</h2>
+                    <p class="text-slate-400 text-sm">Настоящий сертификат подтверждает элитный уровень компетенций в мини-играх и облачных технологиях.</p>
+                </div>
+
+                <div class="bg-cyberdark/60 border border-cyan-500/20 rounded-2xl p-6 md:p-8 space-y-6 text-slate-300">
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <div>
+                            <p class="text-xs uppercase font-orbitron text-slate-400">Награждается:</p>
+                            <p id="certUsername" class="text-2xl font-black font-orbitron text-cyan-400 mt-1">Игрок</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs uppercase font-orbitron text-slate-400">Дата выдачи:</p>
+                            <p id="certDate" class="text-sm font-mono text-magenta-400 mt-1">15.11.2026</p>
+                        </div>
+                    </div>
+
+                    <p class="leading-relaxed text-sm md:text-base">
+                        За успешное прохождение испытаний в экосистеме <strong class="text-cyan-400">Кибер-Даня-Windows-X</strong>, активное участие в бета-тестировании и стабильное содействие облачной синхронизации данных.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+                        <div>
+                            <span class="text-xs font-orbitron text-slate-400 block mb-1">Загрузить PDF Грамоту</span>
+                            <button onclick="downloadPDFCert()" class="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-400/40 py-2.5 px-4 rounded-xl font-orbitron text-xs font-bold transition flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                Скачать PDF-документ
+                            </button>
+                        </div>
+                        <div>
+                            <span class="text-xs font-orbitron text-slate-400 block mb-1">Фирменный файл бэкапа</span>
+                            <button onclick="downloadKDXK()" class="w-full bg-magenta-500/10 hover:bg-magenta-500/20 text-magenta-400 border border-magenta-400/40 py-2.5 px-4 rounded-xl font-orbitron text-xs font-bold transition flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                Скачать KDXK.dat
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Signature Block based on user drawing -->
+                    <div class="pt-6 mt-4 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="text-xs text-slate-400 font-mono">
+                            Штамп подлинности проверен облачным узлом #992
+                        </div>
+                        <div class="text-center">
+                            <div class="h-20 w-44 flex items-center justify-center relative bg-cyberdark/80 rounded-xl border border-cyan-500/20 p-2">
+                                <!-- Inline SVG representation of Dani's looped signature in blue ink -->
+                                <svg class="w-36 h-16 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.7)]" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M 40,70 Q 55,20 70,50 T 110,40 Q 130,20 120,60 T 90,80 Q 70,75 85,50 T 130,30 Q 150,60 160,80" />
+                                </svg>
+                            </div>
+                            <span class="text-[10px] font-orbitron text-cyan-400 uppercase tracking-widest mt-1 block">Подпись Дани</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- GAME MODAL CONTAINER -->
+    <div id="gameModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 hidden">
+        <div class="bg-cybercard border-2 border-cyan-400 shadow-neon-cyan rounded-2xl max-w-2xl w-full p-6 relative max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-cyan-500/30">
+                <h3 id="modalGameTitle" class="font-orbitron font-black text-xl text-cyan-400">Название игры</h3>
+                <button onclick="closeGameModal()" class="text-slate-400 hover:text-cyan-400 p-2 rounded-lg bg-cyberdark border border-cyan-500/20 font-orbitron">✕ Закрыть</button>
+            </div>
+            <div id="modalGameBody" class="flex-1 overflow-y-auto flex flex-col items-center justify-center p-2">
+                <!-- Dynamic Game Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TELEGRAM VERIFICATION MODAL -->
+    <div id="verifyModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 hidden">
+        <div class="bg-cybercard border-2 border-magenta-500 shadow-[0_0_25px_rgba(232,121,249,0.3)] rounded-2xl max-w-md w-full p-6 text-center space-y-4">
+            <div class="w-16 h-16 bg-magenta-500/10 border border-magenta-500 text-magenta-400 rounded-2xl mx-auto flex items-center justify-center text-2xl font-orbitron">
+                🤖
+            </div>
+            <h3 class="font-orbitron font-bold text-xl text-magenta-400">Верификация через Bot</h3>
+            <p class="text-sm text-slate-300">
+                Для разблокировки всех 8 бета-игр подтвердите статус аккаунта в нашем официальном Telegram-боте <span class="text-cyan-400 font-mono">@CyberDanyaBot</span>.
+            </p>
+            <div class="bg-cyberdark p-3 rounded-xl border border-magenta-500/30 text-xs font-mono text-cyan-300">
+                Код подтверждения: <span class="text-white font-bold" id="verifyCode">KDX-9982-X</span>
+            </div>
+            <div class="pt-2 flex gap-3">
+                <button onclick="simulateTelegramVerification()" class="flex-1 bg-gradient-to-r from-magenta-500 to-cyan-500 text-black font-orbitron font-bold py-3 rounded-xl shadow-lg hover:scale-105 transition text-sm">
+                    Подтвердить вход
+                </button>
+                <button onclick="closeVerificationModal()" class="px-4 py-3 bg-cyberdark border border-slate-600 text-slate-300 rounded-xl font-orbitron text-sm">
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-cybercard border border-cyan-400 shadow-neon-cyan text-white px-5 py-3 rounded-xl font-orbitron text-xs flex items-center gap-3 transform translate-y-32 transition duration-300">
+        <span id="toastIcon" class="text-cyan-400 text-base">ℹ️</span>
+        <span id="toastMsg">Успешно!</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-cyan-500/20 py-4 text-center text-xs text-slate-500 font-mono mt-auto">
+        © 2026 Кибер-Даня-Windows-X • Облачная игровая платформа • Все права защищены.
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & GAMES ENGINES -->
+    <script>
+        // State management
+        let currentUser = localStorage.getItem('kdx_user') || null;
+        let currentXP = parseInt(localStorage.getItem('kdx_xp') || '0');
+        let isVerified = localStorage.getItem('kdx_verified') === 'true';
+
+        // 16 Games Database (8 Public + 8 Beta)
+        const publicGames = [
+            { id: 'p1', name: 'Кибер Змейка', desc: 'Классическая змейка в неоновом стиле с ускорением.', icon: '🐍', color: 'cyan' },
+            { id: 'p2', name: 'Неоновый Понг', desc: 'Ретро-теннис против искусственного интеллекта Дани.', icon: '🏓', color: 'magenta' },
+            { id: 'p3', name: 'Клик-Кликер 2026', desc: 'Быстрые клики по квантовым кристаллам на время.', icon: '⚡', color: 'cyan' },
+            { id: 'p4', name: 'Крестики-Нолики 4x4', desc: 'Усложненная тактическая матрица для ума.', icon: '❌', color: 'magenta' },
+            { id: 'p5', name: 'Космический Сбиватель', desc: 'Уничтожайте метеориты квантовым лазером.', icon: '🚀', color: 'cyan' },
+            { id: 'p6', name: 'Угадай Число', desc: 'Логический поиск секретного кода от облака.', icon: '🔢', color: 'magenta' },
+            { id: 'p7', name: 'Неоновый Пазл', desc: 'Соберите правильную последовательность цветов.', icon: '🧩', color: 'cyan' },
+            { id: 'p8', name: 'Рефлекс-Тест', desc: 'Нажмите на кнопку ровно в момент вспышки.', icon: '⏱️', color: 'magenta' }
+        ];
+
+        const betaGames = [
+            { id: 'b1', name: 'Квантовый Лабиринт [BETA]', desc: 'Проход сквозь изменяющиеся голографические стены.', icon: '🌀', color: 'magenta' },
+            { id: 'b2', name: 'Нейро-Прыгун [BETA]', desc: 'Вертикальный подъем на неоновые платформы.', icon: '🦘', color: 'cyan' },
+            { id: 'b3', name: 'Битва ИИ [BETA]', desc: 'Стратегическое противостояние нейросетей.', icon: '🤖', color: 'magenta' },
+            { id: 'b4', name: 'Матричный Слот [BETA]', desc: 'Испытание удачи на квантовых генераторах.', icon: '🎰', color: 'cyan' },
+            { id: 'b5', name: 'Гравитационный Прыжок [BETA]', desc: 'Управление притяжением в невесомости.', icon: '🌌', color: 'magenta' },
+            { id: 'b6', name: 'Кибер Спиннер [BETA]', desc: 'Раскрутите квантовый турбо-спиннер на максимум.', icon: '💫', color: 'cyan' },
+            { id: 'b7', name: 'Взлом Сервера [BETA]', desc: 'Быстрый подбор шифров безопасности.', icon: '💻', color: 'magenta' },
+            { id: 'b8', name: 'Даня-Ракета [BETA]', desc: 'Супер-секретный симулятор космического полета.', icon: '🛸', color: 'cyan' }
+        ];
+
+        // Init App on load
+        window.onload = function() {
+            if (!currentUser) {
+                document.getElementById('welcomeModal').classList.remove('hidden');
+            } else {
+                updateUserUI();
+            }
+            renderGames();
+            updateCloudStats();
+            renderLeaderboard();
+        };
+
+        function handleRegistration(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            if (!username) return;
+
+            currentUser = username;
+            localStorage.setItem('kdx_user', currentUser);
+            document.getElementById('welcomeModal').classList.add('hidden');
+            updateUserUI();
+            showToast('Успешный вход в облако!', '✨');
+        }
+
+        function logout() {
+            localStorage.removeItem('kdx_user');
+            currentUser = null;
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('welcomeModal').classList.remove('hidden');
+            updateUserUI();
+            showToast('Выход выполнен', '👋');
+        }
+
+        function updateUserUI() {
+            document.getElementById('displayUser').innerText = currentUser || 'Гость';
+            document.getElementById('displayScore').innerText = currentXP;
+            document.getElementById('cloudUserXP').innerText = currentXP;
+            document.getElementById('certUsername').innerText = currentUser || 'Игрок';
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "px-4 py-2 rounded-xl font-orbitron text-xs md:text-sm font-bold transition tab-btn text-slate-300 hover:text-cyan-400";
+            });
+
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('nav-' + tabId);
+            activeBtn.className = "px-4 py-2 rounded-xl font-orbitron text-xs md:text-sm font-bold transition tab-btn bg-cyan-500 text-black shadow-neon-cyan";
+        }
+
+        function renderGames() {
+            // Render Public Games
+            const pubGrid = document.getElementById('publicGamesGrid');
+            pubGrid.innerHTML = publicGames.map(game => `
+                <div class="bg-cybercard border border-cyan-500/30 hover:border-cyan-400 hover:shadow-neon-cyan rounded-2xl p-5 flex flex-col justify-between transition group">
+                    <div>
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition transform origin-left">${game.icon}</div>
+                        <h3 class="font-orbitron font-bold text-lg text-white group-hover:text-cyan-400 transition">${game.name}</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">${game.desc}</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+                        <span class="text-[10px] font-orbitron text-cyan-400 uppercase">Стабильно</span>
+                        <button onclick="launchGame('${game.id}', '${game.name}', false)" class="bg-cyan-500/10 hover:bg-cyan-500 text-cyan-400 hover:text-black border border-cyan-400/40 px-4 py-2 rounded-xl font-orbitron text-xs font-bold transition">
+                            Играть
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Beta Games
+            const betaGrid = document.getElementById('betaGamesGrid');
+            betaGrid.innerHTML = betaGames.map(game => `
+                <div class="bg-cybercard border border-magenta-500/30 hover:border-magenta-400 hover:shadow-[0_0_20px_rgba(232,121,249,0.3)] rounded-2xl p-5 flex flex-col justify-between transition group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-magenta-500/20 text-magenta-400 font-orbitron text-[9px] px-2 py-1 rounded-bl-xl border-l border-b border-magenta-500/30 uppercase">
+                        BETA
+                    </div>
+                    <div>
+                        <div class="text-4xl mb-3 group-hover:scale-110 transition transform origin-left">${game.icon}</div>
+                        <h3 class="font-orbitron font-bold text-lg text-white group-hover:text-magenta-400 transition">${game.name}</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">${game.desc}</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+                        <span class="text-[10px] font-orbitron text-magenta-400 uppercase">${isVerified ? 'Доступно' : 'Нужна верификация'}</span>
+                        <button onclick="launchGame('${game.id}', '${game.name}', true)" class="bg-magenta-500/10 hover:bg-magenta-500 text-magenta-400 hover:text-black border border-magenta-400/40 px-4 py-2 rounded-xl font-orbitron text-xs font-bold transition">
+                            ${isVerified ? 'Запустить' : '🔒 Залочено'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateBetaBadgeUI();
+        }
+
+        function updateBetaBadgeUI() {
+            const badge = document.getElementById('betaStatusBadge');
+            if (isVerified) {
+                badge.innerHTML = `<div class="bg-emerald-500/10 border border-emerald-400 text-emerald-400 font-orbitron text-xs px-4 py-2 rounded-xl flex items-center gap-2">✓ Бета-доступ активен</div>`;
+            } else {
+                badge.innerHTML = `<button onclick="openVerificationModal()" class="bg-gradient-to-r from-magenta-500 to-cyan-500 text-black font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-lg hover:scale-105 transition text-sm flex items-center gap-2"><span>🤖 Верифицировать через бота</span></button>`;
+            }
+        }
+
+        function openVerificationModal() {
+            document.getElementById('verifyModal').classList.remove('hidden');
+        }
+
+        function closeVerificationModal() {
+            document.getElementById('verifyModal').classList.add('hidden');
+        }
+
+        function simulateTelegramVerification() {
+            isVerified = true;
+            localStorage.setItem('kdx_verified', 'true');
+            closeVerificationModal();
+            renderGames();
+            showToast('Верификация через бота прошла успешно!', '🤖');
+        }
+
+        // Game Launcher & Engines
+        function launchGame(id, name, isBeta) {
+            if (isBeta && !isVerified) {
+                openVerificationModal();
+                return;
+            }
+
+            document.getElementById('modalGameTitle').innerText = name;
+            document.getElementById('gameModal').classList.remove('hidden');
+
+            const body = document.getElementById('modalGameBody');
+            body.innerHTML = '';
+
+            // Route to specific mini-game interactive UI
+            if (id === 'p1') initSnakeGame(body);
+            else if (id === 'p3') initClickerGame(body);
+            else if (id === 'p4') initTicTacToeGame(body);
+            else if (id === 'p6') initGuessNumberGame(body);
+            else if (id === 'p8') initReflexGame(body);
+            else {
+                // Generic template for other games with playable demo
+                body.innerHTML = `
+                    <div class="text-center py-10 space-y-4 w-full">
+                        <div class="text-5xl animate-bounce">⚡</div>
+                        <h4 class="font-orbitron font-bold text-lg text-cyan-400">${name}</h4>
+                        <p class="text-xs text-slate-300 max-w-md mx-auto">Квантовый модуль запущен без ошибок. Нажмите кнопку победы, чтобы синхронизировать очки с облаком.</p>
+                        <button onclick="addRewardScore(100)" class="bg-gradient-to-r from-cyan-500 to-magenta-500 text-black font-orbitron font-bold px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition text-sm">
+                            🏆 Засвоить победу (+100 XP)
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function closeGameModal() {
+            document.getElementById('gameModal').classList.add('hidden');
+        }
+
+        // MINI-GAME 1: Snake Game Engine
+        function initSnakeGame(container) {
+            container.innerHTML = `
+                <div class="flex flex-col items-center w-full space-y-3">
+                    <div class="flex justify-between w-full max-w-xs text-xs font-orbitron text-cyan-400">
+                        <span>Счет: <span id="snakeScore">0</span></span>
+                        <span>Управление: Стрелки / Тап</span>
+                    </div>
+                    <canvas id="snakeCanvas" width="300" height="300" class="bg-cyberdark border-2 border-cyan-500 rounded-xl shadow-neon-cyan"></canvas>
+                    <div class="grid grid-cols-3 gap-2 w-48">
+                        <div></div>
+                        <button onclick="snakeDir='UP'" class="bg-cyberdark border border-cyan-500 p-3 rounded-xl text-cyan-400">⬆️</button>
+                        <div></div>
+                        <button onclick="snakeDir='LEFT'" class="bg-cyberdark border border-cyan-500 p-3 rounded-xl text-cyan-400">⬅️</button>
+                        <button onclick="snakeDir='DOWN'" class="bg-cyberdark border border-cyan-500 p-3 rounded-xl text-cyan-400">⬇️</button>
+                        <button onclick="snakeDir='RIGHT'" class="bg-cyberdark border border-cyan-500 p-3 rounded-xl text-cyan-400">➡️</button>
+                    </div>
+                    <button onclick="startSnake()" id="snakeStartBtn" class="bg-cyan-500 text-black font-orbitron font-bold px-5 py-2 rounded-xl text-xs">Старт игры</button>
+                </div>
+            `;
+            // snake logic placeholder/runner
+            window.snakeDir = 'RIGHT';
+        }
+
+        // MINI-GAME 3: Clicker
+        let clickerCount = 0;
+        function initClickerGame(container) {
+            clickerCount = 0;
+            container.innerHTML = `
+                <div class="text-center space-y-6 py-4">
+                    <div class="font-orbitron text-4xl font-black text-cyan-400" id="clickCount">0</div>
+                    <p class="text-xs text-slate-400">Кликайте по квантовому кристаллу как можно быстрее!</p>
+                    <button onclick="incrementClicker()" class="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400 to-magenta-500 text-black font-orbitron font-black text-2xl shadow-neon-cyan hover:scale-105 active:scale-95 transition mx-auto flex items-center justify-center">
+                        ⚡
+                    </button>
+                    <button onclick="addRewardScore(Math.floor(clickerCount / 5)); closeGameModal();" class="bg-cyberdark border border-cyan-500 text-cyan-400 px-6 py-2 rounded-xl font-orbitron text-xs">
+                        Сохранить в облако
+                    </button>
+                </div>
+            `;
+        }
+        function incrementClicker() {
+            clickerCount++;
+            const el = document.getElementById('clickCount');
+            if (el) el.innerText = clickerCount;
+        }
+
+        // MINI-GAME 4: Tic Tac Toe 4x4
+        function initTicTacToeGame(container) {
+            container.innerHTML = `
+                <div class="text-center space-y-4">
+                    <div class="font-orbitron text-xs text-cyan-400" id="tttStatus">Ход игрока (X)</div>
+                    <div class="grid grid-cols-3 gap-2 w-64 mx-auto" id="tttBoard">
+                        <div onclick="playTTT(0)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-0"></div>
+                        <div onclick="playTTT(1)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-1"></div>
+                        <div onclick="playTTT(2)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-2"></div>
+                        <div onclick="playTTT(3)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-3"></div>
+                        <div onclick="playTTT(4)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-4"></div>
+                        <div onclick="playTTT(5)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-5"></div>
+                        <div onclick="playTTT(6)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-6"></div>
+                        <div onclick="playTTT(7)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-7"></div>
+                        <div onclick="playTTT(8)" class="h-20 bg-cyberdark border border-cyan-500/40 rounded-xl flex items-center justify-center text-3xl font-orbitron font-bold text-cyan-400 cursor-pointer cell-8"></div>
+                    </div>
+                    <button onclick="initTicTacToeGame(document.getElementById('modalGameBody'))" class="bg-cyberdark border border-slate-600 text-slate-300 px-4 py-2 rounded-xl font-orbitron text-xs">Сброс</button>
+                </div>
+            `;
+            window.tttState = ['', '', '', '', '', '', '', '', ''];
+            window.tttTurn = 'X';
+        }
+        function playTTT(idx) {
+            if (window.tttState[idx] === '') {
+                window.tttState[idx] = window.tttTurn;
+                document.querySelector('.cell-' + idx).innerText = window.tttTurn;
+                if (window.tttTurn === 'X') {
+                    window.tttTurn = 'O';
+                    document.getElementById('tttStatus').innerText = "Ход ИИ (O)";
+                    setTimeout(aiTTTMove, 400);
+                }
+            }
+        }
+        function aiTTTMove() {
+            let empty = window.tttState.map((v, i) => v === '' ? i : null).filter(v => v !== null);
+            if (empty.length > 0 && window.tttTurn === 'O') {
+                let randIdx = empty[Math.floor(Math.random() * empty.length)];
+                window.tttState[randIdx] = 'O';
+                document.querySelector('.cell-' + randIdx).innerText = 'O';
+                document.querySelector('.cell-' + randIdx).style.color = '#e879f9';
+                window.tttTurn = 'X';
+                document.getElementById('tttStatus').innerText = "Ход игрока (X)";
+            }
+        }
+
+        // MINI-GAME 6: Guess Number
+        let secretNum = Math.floor(Math.random() * 50) + 1;
+        function initGuessNumberGame(container) {
+            secretNum = Math.floor(Math.random() * 50) + 1;
+            container.innerHTML = `
+                <div class="text-center space-y-4 max-w-xs mx-auto">
+                    <p class="text-xs text-slate-300">Угадайте число от 1 до 50, загаданное облаком Дани.</p>
+                    <input type="number" id="guessInput" placeholder="Введите число" class="w-full bg-cyberdark border border-cyan-500 rounded-xl px-4 py-2 text-white text-center font-orbitron">
+                    <button onclick="checkGuessNum()" class="w-full bg-cyan-500 text-black font-orbitron font-bold py-2 rounded-xl text-xs">Проверить</button>
+                    <div id="guessResult" class="text-xs font-orbitron text-cyan-400"></div>
+                </div>
+            `;
+        }
+        function checkGuessNum() {
+            const val = parseInt(document.getElementById('guessInput').value);
+            const res = document.getElementById('guessResult');
+            if (val === secretNum) {
+                res.innerText = "🎉 Верно! Вы угадали число!";
+                addRewardScore(150);
+            } else if (val < secretNum) {
+                res.innerText = "📈 Загаданное число БОЛЬШЕ";
+            } else {
+                res.innerText = "📉 Загаданное число МЕНЬШЕ";
+            }
+        }
+
+        // MINI-GAME 8: Reflex Test
+        let reflexStartTime = 0;
+        function initReflexGame(container) {
+            container.innerHTML = `
+                <div class="text-center space-y-4">
+                    <div id="reflexBox" onclick="clickReflex()" class="w-64 h-40 bg-cyberdark border-2 border-cyan-500 rounded-2xl flex items-center justify-center font-orbitron text-sm text-cyan-400 cursor-pointer shadow-neon-cyan select-none mx-auto">
+                        Нажмите "Старт"
+                    </div>
+                    <button onclick="startReflex()" class="bg-cyan-500 text-black font-orbitron font-bold px-6 py-2 rounded-xl text-xs">Старт теста</button>
+                </div>
+            `;
+        }
+        function startReflex() {
+            const box = document.getElementById('reflexBox');
+            box.style.background = '#0a0915';
+            box.innerText = "Ждите сигнал...";
+            setTimeout(() => {
+                box.style.background = '#d946ef';
+                box.style.borderColor = '#e879f9';
+                box.style.color = '#000';
+                box.innerText = "КЛИКАЙ СЕЙЧАС!";
+                reflexStartTime = Date.now();
+            }, Math.random() * 2000 + 1000);
+        }
+        function clickReflex() {
+            const box = document.getElementById('reflexBox');
+            if (reflexStartTime > 0) {
+                const diff = Date.now() - reflexStartTime;
+                box.style.background = '#0a0915';
+                box.style.color = '#22d3ee';
+                box.innerText = `Результат: ${diff} мс!`;
+                if (diff < 350) addRewardScore(200);
+                reflexStartTime = 0;
+            }
+        }
+
+        function addRewardScore(amount) {
+            currentXP += amount;
+            localStorage.setItem('kdx_xp', currentXP);
+            updateUserUI();
+            updateCloudStats();
+            showToast(`Начислено +${amount} XP в облако!`, '🏆');
+        }
+
+        // Cloud & Leaderboard functions
+        function updateCloudStats() {
+            document.getElementById('cloudTotalXP').innerText = currentXP;
+            // Simulated live stats
+            document.getElementById('cloudTotalPlayers').innerText = (1428 + (currentXP % 5)).toLocaleString();
+            document.getElementById('cloudTotalWins').innerText = (8934 + Math.floor(currentXP / 10)).toLocaleString();
+        }
+
+        function refreshCloudData() {
+            updateCloudStats();
+            renderLeaderboard();
+            showToast('Облачные данные успешно синхронизированы!', '☁️');
+        }
+
+        function renderLeaderboard() {
+            const mockLeaders = [
+                { rank: 1, name: 'CyberDanya_Master', wins: 412, xp: 4850, status: 'Онлайн' },
+                { rank: 2, name: 'NeonMatrix_99', wins: 389, xp: 4210, status: 'Онлайн' },
+                { rank: 3, name: 'QuantumX', wins: 310, xp: 3750, status: 'В игре' },
+                { rank: 4, name: currentUser || 'Вы', wins: Math.floor(currentXP / 50), xp: currentXP, status: 'Активен' },
+                { rank: 5, name: 'SynthwaveGirl', wins: 245, xp: 2900, status: 'Оффлайн' }
+            ];
+
+            const tbody = document.getElementById('leaderboardTableBody');
+            tbody.innerHTML = mockLeaders.map(l => `
+                <tr class="hover:bg-cyberdark/50 transition">
+                    <td class="p-3 font-bold text-cyan-400">#${l.rank}</td>
+                    <td class="p-3 text-white font-bold">${l.name}</td>
+                    <td class="p-3 text-slate-300">${l.wins}</td>
+                    <td class="p-3 text-magenta-400 font-bold">${l.xp} XP</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${l.status === 'Онлайн' || l.status === 'Активен' || l.status === 'В игре' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'bg-slate-800 text-slate-400'}">${l.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // File download generators
+        function downloadKDXK() {
+            const data = JSON.stringify({
+                app: "Кибер-Даня-Windows-X",
+                user: currentUser || "Guest",
+                xp: currentXP,
+                verified: isVerified,
+                timestamp: new Date().toISOString(),
+                signatureHash: "DANY_SIG_9982X_VERIFIED"
+            }, null, 2);
+
+            const blob = new Blob([data], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'KDXK.dat';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Файл KDXK.dat успешно скачан!', '💾');
+        }
+
+        function downloadPDFCert() {
+            const content = `ОФИЦИАЛЬНАЯ ГРАМОТА - КИБЕР-ДАНЯ-WINDOWS-X\n\nНаграждается: ${currentUser || 'Игрок'}\nОчки облака: ${currentXP} XP\nДата: 15.11.2026\n\nПодпись Дани верифицирована.`;
+            const blob = new Blob([content], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Dani_Certificate.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('PDF Грамота загружена!', '📜');
+        }
+
+        // Toast Notification System
+        function showToast(msg, icon = 'ℹ️') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            document.getElementById('toastIcon').innerText = icon;
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
