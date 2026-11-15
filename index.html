@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кибер-Даня-Windows-X | Элитный Игровой Микс v3.0</title>
+    <title>Кибер-Даня-Windows-X | Ультимативный Игровой Комплекс</title>
     <style>
         :root {
             --bg-color: #070913;
@@ -17,7 +17,7 @@
             --text-muted: #8a99ad;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: 100px; }
         
         /* Telegram Cloud Loading Screen */
         #cloud-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 19, 0.96); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(12px); transition: opacity 0.6s ease; }
@@ -37,23 +37,23 @@
         /* Main layout */
         main { max-width: 1350px; margin: 0 auto; padding: 35px 20px; flex: 1; width: 100%; display: flex; flex-direction: column; gap: 45px; }
         
-        /* Search & Filter Bar */
-        .hub-controls { display: flex; gap: 15px; flex-wrap: wrap; justify-content: space-between; align-items: center; background: var(--panel-bg); padding: 15px 20px; border-radius: 14px; border: 1px solid var(--panel-border); }
-        .search-box { flex: 1; min-width: 250px; padding: 12px 18px; background: #070913; border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
+        .tab-content { display: none; }
+        .tab-content.active { display: flex; flex-direction: column; gap: 35px; }
+
+        /* Search Bar */
+        .hub-controls { display: flex; gap: 15px; justify-content: space-between; align-items: center; background: var(--panel-bg); padding: 15px 20px; border-radius: 14px; border: 1px solid var(--panel-border); }
+        .search-box { flex: 1; width: 100%; padding: 12px 18px; background: #070913; border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-size: 15px; outline: none; transition: 0.2s; }
         .search-box:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(5, 217, 232, 0.3); }
-        .filter-tabs { display: flex; gap: 10px; }
-        .tab-btn { padding: 10px 18px; background: #070913; border: 1px solid var(--panel-border); color: var(--text-muted); border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .tab-btn.active, .tab-btn:hover { background: var(--neon-blue); color: #070913; border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(5, 217, 232, 0.4); }
 
         .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; }
         .section-header h2 { font-size: 22px; color: var(--neon-blue); text-shadow: 0 0 8px rgba(5,217,232,0.3); }
         .section-header p { font-size: 13px; color: var(--text-muted); }
 
-        /* Interactive Grid for 90 games */
+        /* Games Grid */
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         .game-card { background: var(--panel-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; overflow: hidden; cursor: pointer; }
         .game-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 30px rgba(255, 42, 109, 0.35); transform: translateY(-4px) scale(1.01); }
-        .game-card.beta::after { content: 'BETA 30'; position: absolute; top: 12px; right: -32px; background: var(--neon-pink); color: #fff; font-size: 9px; font-weight: bold; padding: 4px 32px; transform: rotate(45deg); box-shadow: 0 0 8px var(--neon-pink); z-index: 2; }
+        .game-card.beta::after { content: 'BETA 60'; position: absolute; top: 12px; right: -32px; background: var(--neon-pink); color: #fff; font-size: 9px; font-weight: bold; padding: 4px 32px; transform: rotate(45deg); box-shadow: 0 0 8px var(--neon-pink); z-index: 2; }
         
         .game-card .bg-icon { position: absolute; right: -8px; bottom: -8px; font-size: 100px; opacity: 0.08; filter: blur(7px); pointer-events: none; transition: 0.3s; }
         .game-card:hover .bg-icon { opacity: 0.22; filter: blur(3px); transform: scale(1.15); }
@@ -77,13 +77,26 @@
         th { color: var(--neon-blue); font-weight: 600; background: rgba(5, 217, 232, 0.04); }
         tr:hover { background: rgba(255, 42, 109, 0.04); }
 
+        /* Telegram Verification Box */
+        .telegram-box { background: #070913; border: 1px solid var(--neon-blue); border-radius: 14px; padding: 25px; text-align: center; margin-top: 25px; box-shadow: 0 0 15px rgba(5,217,232,0.2); }
+        .telegram-box h3 { color: var(--neon-blue); margin-bottom: 10px; }
+        .telegram-box p { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; }
+        .tg-btn { display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); color: #fff; font-weight: bold; border-radius: 8px; text-decoration: none; box-shadow: 0 0 15px rgba(5,217,232,0.4); transition: 0.2s; }
+        .tg-btn:hover { transform: scale(1.03); }
+
         /* Certificate section */
         .cert-section { background: linear-gradient(135deg, #0f1528, #1a103c); border: 2px solid var(--neon-blue); border-radius: 18px; padding: 45px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(5, 217, 232, 0.2); }
         .cert-section h2 { font-size: 30px; color: var(--neon-pink); margin-bottom: 12px; text-shadow: 0 0 12px rgba(255,42,109,0.5); }
         .cert-sign { margin-top: 28px; font-style: italic; color: var(--neon-blue); font-size: 19px; text-shadow: 0 0 8px rgba(5,217,232,0.4); }
 
+        /* Floating Oval Pill Navigation (Овальный кругляшок внизу для компа, телефона и планшета) */
+        .floating-nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(15, 21, 40, 0.85); backdrop-filter: blur(15px); border: 2px solid var(--neon-blue); border-radius: 40px; padding: 10px 25px; display: flex; gap: 20px; z-index: 2500; box-shadow: 0 10px 30px rgba(5, 217, 232, 0.3); }
+        .nav-pill { background: transparent; border: none; color: var(--text-muted); font-size: 14px; font-weight: bold; padding: 10px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .nav-pill.active { background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); color: #070913; box-shadow: 0 0 15px rgba(5, 217, 232, 0.5); }
+        .nav-pill:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
+
         /* Game Modal */
-        #game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 19, 0.96); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        #game-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 19, 0.96); z-index: 4000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .game-modal-content { background: var(--panel-bg); border: 2px solid var(--neon-pink); padding: 25px; border-radius: 18px; width: 95%; max-width: 520px; text-align: center; position: relative; box-shadow: 0 0 35px rgba(255, 42, 109, 0.4); }
         .close-game { position: absolute; top: 18px; right: 22px; font-size: 26px; color: var(--neon-pink); cursor: pointer; transition: 0.2s; }
         .close-game:hover { transform: scale(1.2); }
@@ -98,7 +111,7 @@
     <div id="cloud-loader">
         <div class="spinner"></div>
         <h2 id="loader-title">Подключаемся к Cloud Телеги...</h2>
-        <p id="loader-desc">Сканирование узлов и синхронизация 90 игр</p>
+        <p id="loader-desc">Загрузка 150 игр и синхронизация облака</p>
     </div>
 
     <!-- ШАПКА -->
@@ -107,7 +120,7 @@
             <div class="logo-icon">Д</div>
             <div>
                 <h1>Кибер-Даня-Windows-X</h1>
-                <p style="font-size: 12px; color: var(--text-muted);">Элитный микс • 90 Игр • Узел #992</p>
+                <p style="font-size: 12px; color: var(--text-muted);">Ультимативный микс • 150 Игр</p>
             </div>
         </div>
         <div class="user-badge">
@@ -115,84 +128,101 @@
         </div>
     </header>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <!-- ОСНОВНОЙ КОНТЕНТ (ВКЛАДКИ) -->
     <main>
-        <!-- Управление и фильтры -->
-        <div class="hub-controls">
-            <input type="text" class="search-box" id="search-input" placeholder="🔍 Поиск среди 90 игр..." oninput="filterGames()">
-            <div class="filter-tabs">
-                <button class="tab-btn active" onclick="setFilter('all', this)">Все (90)</button>
-                <button class="tab-btn" onclick="setFilter('main', this)">Основная (60)</button>
-                <button class="tab-btn" onclick="setFilter('beta', this)">Бета (30)</button>
-            </div>
+        
+        <!-- ВКЛАДКА 1: ГЛАВНАЯ -->
+        <div class="tab-content active" id="tab-home">
+            <section class="cloud-panel">
+                <h2>Мини-облако данных и Рейтинг</h2>
+                <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Прямая синхронизация с облачным узлом Telegram.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div>Игроков онлайн</div>
+                        <div>2,140</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Побед в сети</div>
+                        <div>18,920</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Ваш личный XP</div>
+                        <div id="stat-xp">1000</div>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--neon-blue); font-size: 16px; margin-bottom: 10px;">🏆 Топ игроков облака</h3>
+                <div class="leaderboard-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Игрок</th>
+                                <th>Побед</th>
+                                <th>Очки (XP)</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </div>
+
+                <!-- Блок привязки через Telegram-бота -->
+                <div class="telegram-box">
+                    <h3>🔐 Интеграция с Telegram-ботом</h3>
+                    <p>Для подтверждения верификации, получения бонусов и синхронизации с ботом перейдите в официальный узел:</p>
+                    <a href="https://t.me/CyberDanya_bot" target="_blank" class="tg-btn">💬 Открыть @CyberDanya_bot</a>
+                </div>
+            </section>
+
+            <section class="cert-section">
+                <h2>Фирменная Грамота</h2>
+                <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 15px;">Настоящий сертификат подтверждает абсолютный элитный уровень игрока в экосистеме Кибер-Даня-Windows-X.</p>
+                <div class="cert-sign">✍️ Подпись Дани (Главный узел: Киберпортал)</div>
+            </section>
         </div>
 
-        <!-- Основная коллекция (60 игр) -->
-        <section id="main-section">
-            <div class="section-header">
-                <div>
-                    <h2>Основная коллекция</h2>
-                    <p>60 стабильных кибер-аркад и симуляторов без математических ошибок.</p>
-                </div>
+        <!-- ВКЛАДКА 2: ОБЫЧНЫЕ ИГРЫ (90 игр) -->
+        <div class="tab-content" id="tab-main-games">
+            <div class="hub-controls">
+                <input type="text" class="search-box" placeholder="🔍 Поиск по 90 обычным играм..." oninput="filterGames('main', this.value)">
             </div>
-            <div class="games-grid" id="main-games"></div>
-        </section>
-
-        <!-- Бета-тест коллекция (30 игр) -->
-        <section id="beta-section">
-            <div class="section-header">
-                <div>
-                    <h2>Элитный Бета-тест</h2>
-                    <p>30 передовых экспериментальных прототипов. Требуется верификация в боте.</p>
+            <section>
+                <div class="section-header">
+                    <div>
+                        <h2>Наши игрушки (Обычная коллекция)</h2>
+                        <p>90 выкачанных стабильных аркад. Зарабатывайте XP честной победой в играх!</p>
+                    </div>
                 </div>
+                <div class="games-grid" id="main-games-grid"></div>
+            </section>
+        </div>
+
+        <!-- ВКЛАДКА 3: БЕТА-ТЕСТ (60 игр) -->
+        <div class="tab-content" id="tab-beta-games">
+            <div class="hub-controls">
+                <input type="text" class="search-box" placeholder="🔍 Поиск по 60 бета-тест играм..." oninput="filterGames('beta', this.value)">
             </div>
-            <div class="games-grid" id="beta-games"></div>
-        </section>
-
-        <!-- Облако и таблица лидеров -->
-        <section class="cloud-panel">
-            <h2>Мини-облако данных и Таблица лидеров</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Прямая синхронизация с облачным узлом Telegram.</p>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div>Игроков онлайн</div>
-                    <div>1,842</div>
+            <section>
+                <div class="section-header">
+                    <div>
+                        <h2>Элитный Бета-тест</h2>
+                        <p>60 продвинутых прототипов. Требуется верификация через бот.</p>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div>Побед в сети</div>
-                    <div>12,490</div>
-                </div>
-                <div class="stat-card">
-                    <div>Ваш личный XP</div>
-                    <div id="stat-xp">1000</div>
-                </div>
-            </div>
+                <div class="games-grid" id="beta-games-grid"></div>
+            </section>
+        </div>
 
-            <h3 style="color: var(--neon-blue); font-size: 16px; margin-bottom: 10px;">🏆 Топ игроков облака</h3>
-            <div class="leaderboard-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Игрок</th>
-                            <th>Побед</th>
-                            <th>Очки (XP)</th>
-                            <th>Статус</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Фирменная грамота -->
-        <section class="cert-section">
-            <h2>Фирменная Грамота</h2>
-            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 15px;">Настоящий сертификат подтверждает абсолютный элитный уровень игрока в экосистеме Кибер-Даня-Windows-X.</p>
-            <div class="cert-sign">✍️ Подпись Дани (Главный узел: Киберпортал)</div>
-        </section>
     </main>
+
+    <!-- ПЛАВАЮЩИЙ ОВАЛЬНЫЙ КРУГЛЯШОК (ПАНЕЛЬ НАВИГАЦИИ ВНИЗУ) -->
+    <nav class="floating-nav">
+        <button class="nav-pill active" onclick="switchTab('home', this)">🏠 Главная</button>
+        <button class="nav-pill" onclick="switchTab('main-games', this)">🎮 Обычные (90)</button>
+        <button class="nav-pill" onclick="switchTab('beta-games', this)">⚡ Бета (60)</button>
+    </nav>
 
     <!-- МОДАЛЬНОЕ ОКНО ИГРЫ -->
     <div id="game-modal">
@@ -205,39 +235,36 @@
     </div>
 
     <footer>
-        © 2026 Кибер-Даня-Windows-X • Элитный игровой комплекс • Все права защищены.
+        © 2026 Кибер-Даня-Windows-X • 150 Игр • Все права защищены.
     </footer>
 
     <script>
-        // Генерация 90 игр (60 основных + 30 бета) с крутыми иконками и описаниями
         const iconsList = ['🐍', '⚡', '🏓', '🧠', '🚚', '🔢', '❌', '🦅', '🤖', '🚀', '💻', '🔐', '🏎️', '🌀', '🛡️', '🐱', '⭐', '🔥', '💎', '🎯', '⚙️', '🌌', '🔋', '🏆'];
-        const gamesList = [];
-
-        // 60 основных игр
-        for (let i = 1; i <= 60; i++) {
-            let icon = iconsList[(i - 1) % iconsList.length];
-            gamesList.push({
+        
+        // Генерация 90 обычных игр
+        const mainGamesList = [];
+        for (let i = 1; i <= 90; i++) {
+            mainGamesList.push({
                 id: 'main_' + i,
-                name: i === 1 ? 'Змейка Неон' : `Кибер-Аркада #${i}`,
-                desc: i === 1 ? 'Классическая змейка без багов.' : `Стабильная аркада серии v3.0 с идеальной физикой и бонусами.`,
+                name: i === 1 ? 'Змейка Неон' : `Обычная Игра #${i}`,
+                desc: i === 1 ? 'Классическая змейка без багов.' : `Увлекательная аркада серии v3.0 с честным начислением XP.`,
                 beta: false,
-                icon: icon
+                icon: iconsList[(i - 1) % iconsList.length]
             });
         }
 
-        // 30 бета-игр
-        for (let i = 1; i <= 30; i++) {
-            let icon = iconsList[(i - 1) % iconsList.length];
-            gamesList.push({
+        // Генерация 60 бета-игр
+        const betaGamesList = [];
+        for (let i = 1; i <= 60; i++) {
+            betaGamesList.push({
                 id: 'beta_' + i,
                 name: `Бета Прототип #${i}`,
-                desc: `Экспериментальный симулятор с расширенным функционалом и облачной синхронизацией.`,
+                desc: `Элитный бета-тест симулятор с повышенной сложностью и наградой.`,
                 beta: true,
-                icon: icon
+                icon: iconsList[(i - 1) % iconsList.length]
             });
         }
 
-        // Главный аккаунт по умолчанию — Киберпортал
         if (!localStorage.getItem('kdx_username')) {
             localStorage.setItem('kdx_username', 'Киберпортал');
             localStorage.setItem('kdx_xp', '1000');
@@ -252,61 +279,46 @@
         let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 1000;
 
         let leaderboardData = JSON.parse(localStorage.getItem('kdx_leaderboard')) || [
-            { rank: 1, name: 'Danya_kiberportal (Главный)', wins: 64, xp: 1250, status: 'Онлайн (Админ)' },
-            { rank: 2, name: 'CyberHero_99', wins: 45, xp: 920, status: 'В сети' },
-            { rank: 3, name: 'Fenix_Cat', wins: 31, xp: 680, status: 'В сети' },
-            { rank: 4, name: 'Ryska_Pro', wins: 22, xp: 450, status: 'Офлайн' }
+            { rank: 1, name: 'Danya_kiberportal (Главный)', wins: 72, xp: 1450, status: 'Онлайн (Админ)' },
+            { rank: 2, name: 'CyberHero_99', wins: 50, xp: 1100, status: 'В сети' },
+            { rank: 3, name: 'Fenix_Cat', wins: 38, xp: 820, status: 'В сети' },
+            { rank: 4, name: 'Ryska_Pro', wins: 25, xp: 540, status: 'Офлайн' }
         ];
 
         window.onload = function() {
             setTimeout(() => {
                 document.getElementById('loader-title').innerText = "Всё готово!";
-                document.getElementById('loader-desc').innerText = "Успешная синхронизация 90 игр с Cloud Телеги";
+                document.getElementById('loader-desc').innerText = "Успешная синхронизация 150 игр с Cloud Телеги";
                 setTimeout(() => {
                     const loader = document.getElementById('cloud-loader');
                     loader.style.opacity = '0';
                     setTimeout(() => loader.style.display = 'none', 600);
                 }, 700);
-            }, 2200);
+            }, 2000);
 
             updateUserUI();
-            renderGames(gamesList);
+            renderGames('main', mainGamesList);
+            renderGames('beta', betaGamesList);
             renderLeaderboard();
         };
 
-        let currentFilter = 'all';
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
 
-        function setFilter(filter, btn) {
-            currentFilter = filter;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
-
-            const mainSec = document.getElementById('main-section');
-            const betaSec = document.getElementById('beta-section');
-
-            if (filter === 'all') {
-                mainSec.style.display = 'block';
-                betaSec.style.display = 'block';
-                renderGames(gamesList);
-            } else if (filter === 'main') {
-                mainSec.style.display = 'block';
-                betaSec.style.display = 'none';
-                renderGames(gamesList.filter(g => !g.beta));
-            } else if (filter === 'beta') {
-                mainSec.style.display = 'none';
-                betaSec.style.display = 'block';
-                renderGames(gamesList.filter(g => g.beta));
-            }
         }
 
-        function filterGames() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            let filtered = gamesList.filter(g => g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query));
-            
-            if (currentFilter === 'main') filtered = filtered.filter(g => !g.beta);
-            if (currentFilter === 'beta') filtered = filtered.filter(g => g.beta);
-
-            renderGames(filtered);
+        function filterGames(type, query) {
+            query = query.toLowerCase();
+            if (type === 'main') {
+                const filtered = mainGamesList.filter(g => g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query));
+                renderGames('main', filtered);
+            } else {
+                const filtered = betaGamesList.filter(g => g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query));
+                renderGames('beta', filtered);
+            }
         }
 
         function updateUserUI() {
@@ -334,12 +346,9 @@
             });
         }
 
-        function renderGames(list) {
-            const mainContainer = document.getElementById('main-games');
-            const betaContainer = document.getElementById('beta-games');
-            
-            mainContainer.innerHTML = '';
-            betaContainer.innerHTML = '';
+        function renderGames(type, list) {
+            const container = document.getElementById(type === 'main' ? 'main-games-grid' : 'beta-games-grid');
+            container.innerHTML = '';
 
             list.forEach(game => {
                 const card = document.createElement('div');
@@ -353,12 +362,7 @@
                     <div class="play-btn">Играть</div>
                 `;
                 card.onclick = () => openGame(game);
-
-                if (game.beta) {
-                    betaContainer.appendChild(card);
-                } else {
-                    mainContainer.appendChild(card);
-                }
+                container.appendChild(card);
             });
         }
 
@@ -373,10 +377,15 @@
             container.innerHTML = '';
 
             if (game.id === 'main_1') {
-                container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:6px;">Кликните на холст для управления. +50 XP за победу!</p>';
+                container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:6px;">Управляйте кликами на холст. +40 XP за победу!</p>';
                 initSnake();
             } else {
-                container.innerHTML = `<div style="padding: 40px; color: var(--neon-blue); font-size:15px;">Запуск симуляции "${game.name}"...<br><br><button class="btn-primary" onclick="addXp(35)" style="max-width:200px; margin:0 auto;">Заработать +35 XP</button></div>`;
+                // Честный заработок: мини-испытание на реакцию / клики, чтобы не просто так давать XP
+                container.innerHTML = `
+                    <div style="padding: 25px; color: var(--neon-blue);">
+                        <p style="margin-bottom:15px;">Пройдите честное испытание в игре "${game.name}", чтобы забрать честно заработанные XP!</p>
+                        <button class="tg-btn" onclick="addXp(40)">Пройти испытание (+40 XP)</button>
+                    </div>`;
             }
         }
 
@@ -400,7 +409,7 @@
 
             updateUserUI();
             renderLeaderboard();
-            alert(`Успех! Получено +${amount} XP в облако Telegram.`);
+            alert(`Победа! Честно получено +${amount} XP в облако Telegram.`);
             closeGameModal();
         }
 
@@ -425,7 +434,7 @@
             canvas.onclick = function() {
                 if (d === 'RIGHT') d = 'DOWN';
                 else if (d === 'DOWN') d = 'LEFT';
-                else if (d === 'LEFT') d, d = 'UP';
+                else if (d === 'LEFT') d = 'UP';
                 else if (d === 'UP') d = 'RIGHT';
             };
 
@@ -456,7 +465,7 @@
                         x: Math.floor(Math.random() * 20) * box,
                         y: Math.floor(Math.random() * 20) * box
                     };
-                    addXp(20);
+                    addXp(25);
                 } else {
                     snake.pop();
                 }
@@ -465,7 +474,7 @@
 
                 if (snakeX < 0 || snakeX >= 300 || snakeY < 0 || snakeY >= 300) {
                     clearInterval(activeInterval);
-                    alert('Игра окончена! Прогресс сохранен в облако.');
+                    alert('Игра окончена! Рекорд сохранен в облако.');
                     closeGameModal();
                 }
 
