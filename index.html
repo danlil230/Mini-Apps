@@ -17,8 +17,15 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
         
+        /* Telegram Cloud Loading / Connection Screen */
+        #cloud-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 9, 25, 0.95); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); transition: opacity 0.5s ease; }
+        .spinner { width: 60px; height: 60px; border: 4px solid rgba(5, 217, 232, 0.1); border-top: 4px solid var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; box-shadow: 0 0 15px var(--neon-blue); }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #cloud-loader h2 { color: var(--neon-blue); font-size: 20px; text-shadow: 0 0 10px rgba(5, 217, 232, 0.5); margin-bottom: 8px; }
+        #cloud-loader p { color: var(--text-muted); font-size: 14px; }
+
         /* Modal Login */
-        #auth-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 9, 25, 0.9); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        #auth-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 9, 25, 0.9); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .modal-content { background: var(--panel-bg); border: 2px solid var(--neon-blue); box-shadow: 0 0 25px rgba(5, 217, 232, 0.4); padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; }
         .modal-content h2 { color: var(--neon-blue); margin-bottom: 15px; text-shadow: 0 0 10px rgba(5, 217, 232, 0.5); }
         .modal-content p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
@@ -27,10 +34,6 @@
         .input-group input { width: 100%; padding: 12px; background: #0b0f19; border: 1px solid var(--neon-purple); border-radius: 8px; color: #fff; font-size: 16px; outline: none; }
         .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 0 15px rgba(255, 42, 109, 0.5); transition: 0.2s; }
         .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
-
-        /* Scanner Alert Banner */
-        #scanner-banner { background: linear-gradient(90deg, rgba(5,217,232,0.1), rgba(255,42,109,0.1)); border-bottom: 1px solid var(--neon-blue); padding: 10px 20px; text-align: center; font-size: 13px; color: var(--neon-blue); display: none; }
-        #scanner-banner.success { color: #05e884; border-bottom-color: #05e884; }
 
         /* Header */
         header { background: var(--panel-bg); border-bottom: 2px solid var(--neon-pink); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 20px rgba(255, 42, 109, 0.2); }
@@ -52,7 +55,6 @@
         .game-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 25px rgba(255, 42, 109, 0.4); transform: translateY(-4px) scale(1.01); }
         .game-card.beta::after { content: 'BETA'; position: absolute; top: 10px; right: -30px; background: var(--neon-pink); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 30px; transform: rotate(45deg); box-shadow: 0 0 5px var(--neon-pink); z-index: 2; }
         
-        /* Blurred background game icon watermark */
         .game-card .bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 90px; opacity: 0.12; filter: blur(6px); pointer-events: none; transition: 0.3s; }
         .game-card:hover .bg-icon { opacity: 0.25; filter: blur(3px); transform: scale(1.1); }
 
@@ -68,7 +70,7 @@
         .stat-card div:first-child { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
         .stat-card div:last-child { font-size: 24px; font-weight: bold; color: var(--neon-blue); }
 
-        /* Leaderboard Table (5 players) */
+        /* Leaderboard Table */
         .leaderboard-container { width: 100%; overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         th, td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.08); }
@@ -91,24 +93,23 @@
 </head>
 <body>
 
-    <!-- Уведомление сканера портов при входе -->
-    <div id="scanner-banner">🛡 Сканирование портов узла... Проверка Telegram WebApp окружения...</div>
+    <!-- ЭКРАН ПОДКЛЮЧЕНИЯ К ОБЛАКУ ТЕЛЕГРАМ (3 секунды) -->
+    <div id="cloud-loader">
+        <div class="spinner"></div>
+        <h2 id="loader-title">Подключаемся к Cloud Телеги...</h2>
+        <p id="loader-desc">Синхронизация узлов и проверка верификации</p>
+    </div>
 
-    <!-- Модальное окно авторизации -->
+    <!-- Модальное окно авторизации (если гость без бота) -->
     <div id="auth-modal">
         <div class="modal-content">
             <h2>Инициализация</h2>
-            <p>Привет, вот твой сайтик! Введи логин и пароль для привязки к облаку.</p>
+            <p>Привет! Введи свой логин для подключения к облаку.</p>
             <div class="input-group">
                 <label>Имя игрока / Логин</label>
-                <input type="text" id="login-input" placeholder="Например: CyberDani">
-            </div>
-            <div class="input-group">
-                <label>Пароль облака</label>
-                <input type="password" id="pass-input" placeholder="••••••••">
+                <input type="text" id="login-input" placeholder="Например: Папа">
             </div>
             <button class="btn-primary" onclick="handleLogin()">Войти в облако</button>
-            <a href="KDXK.dat" download style="display: block; margin-top: 15px; color: var(--neon-blue); font-size: 13px; text-decoration: none;">📥 Скачать фирменный файл KDXK</a>
         </div>
     </div>
 
@@ -122,7 +123,7 @@
             </div>
         </div>
         <div class="user-badge">
-            Игрок: <span id="display-user">Гость</span> | XP: <span id="display-xp">0</span>
+            Игрок: <span id="display-user">Киберпортал</span> | XP: <span id="display-xp">1000</span>
         </div>
     </header>
 
@@ -149,8 +150,8 @@
         </section>
 
         <section class="cloud-panel">
-            <h2>Мини-облако данных и Точная таблица</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Рейтинг топ-5 игроков сети в реальном времени.</p>
+            <h2>Мини-облако данных и Таблица лидеров</h2>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Активные игроки облачной сети.</p>
             
             <div class="stats-grid">
                 <div class="stat-card">
@@ -163,7 +164,7 @@
                 </div>
                 <div class="stat-card">
                     <div>Ваш личный XP</div>
-                    <div id="stat-xp">0</div>
+                    <div id="stat-xp">1000</div>
                 </div>
             </div>
 
@@ -180,7 +181,7 @@
                         </tr>
                     </thead>
                     <tbody id="leaderboard-body">
-                        <!-- Динамически заполняется скриптом -->
+                        <!-- Динамически заполняется -->
                     </tbody>
                 </table>
             </div>
@@ -189,7 +190,7 @@
         <section class="cert-section">
             <h2>Фирменная Грамота</h2>
             <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 15px;">Настоящий сертификат подтверждает элитный уровень игрока в экосистеме Кибер-Даня-Windows-X.</p>
-            <div class="cert-sign">✍️ Подпись Дани (Проверено узлом #992)</div>
+            <div class="cert-sign">✍️ Подпись Дани (Главный узел: Киберпортал)</div>
         </section>
     </main>
 
@@ -208,7 +209,6 @@
     </footer>
 
     <script>
-        // 16 игр с эмодзи-иконками для размытого фона
         const gamesList = [
             { id: 'snake', name: 'Змейка Неон', desc: 'Классическая змейка без багов.', beta: false, icon: '🐍' },
             { id: 'clicker', name: 'Кибер-Кликер', desc: 'Зарабатывай XP одним кликом.', beta: false, icon: '⚡' },
@@ -228,52 +228,42 @@
             { id: 'beta8', name: 'Феникс и Рыська OS', desc: 'Секретный режим с котами.', beta: true, icon: '🐱' }
         ];
 
-        // Начальная таблица лидеров на 5 человек
-        let leaderboardData = [
-            { rank: 1, name: 'CyberDani (Ты)', wins: 42, xp: 850, status: 'Онлайн' },
-            { rank: 2, name: 'Aker_Bot', wins: 38, xp: 720, status: 'В сети' },
-            { rank: 3, name: 'Fenix_Cat', wins: 29, xp: 540, status: 'В сети' },
-            { rank: 4, name: 'Ryska_Pro', wins: 24, xp: 480, status: 'Офлайн' },
-            { rank: 5, name: 'KDX_Tester', wins: 19, xp: 350, status: 'В сети' }
-        ];
+        // Главный аккаунт по умолчанию — Киберпортал
+        if (!localStorage.getItem('kdx_username')) {
+            localStorage.setItem('kdx_username', 'Киберпортал');
+            localStorage.setItem('kdx_xp', '1000');
+        }
 
-        // Проверка параметров авторизации из Telegram
+        // Проверяем параметры из бота (если зашел кто-то другой, например, Папа)
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('verified') === 'true' && urlParams.get('name')) {
             localStorage.setItem('kdx_username', urlParams.get('name'));
         }
 
         let currentUser = localStorage.getItem('kdx_username');
-        let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 120;
+        let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 1000;
+
+        // Изначально таблица пустая (создаем массив для топ-5)
+        let leaderboardData = JSON.parse(localStorage.getItem('kdx_leaderboard')) || [
+            { rank: 1, name: 'Danya_kiberportal (Главный)', wins: 50, xp: 1000, status: 'Онлайн (Админ)' }
+        ];
 
         window.onload = function() {
-            // Эмуляция сканирования портов и проверки входа из Telegram
-            runPortScanner();
+            // Эмуляция 3-секундного подключения к Cloud Телеги
+            setTimeout(() => {
+                document.getElementById('loader-title').innerText = "Всё готово!";
+                document.getElementById('loader-desc').innerText = "Успешная авторизация в облаке Telegram";
+                setTimeout(() => {
+                    const loader = document.getElementById('cloud-loader');
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 500);
+                }, 800);
+            }, 2500);
 
-            if (currentUser) {
-                document.getElementById('auth-modal').style.display = 'none';
-                updateUserUI();
-            }
+            updateUserUI();
             renderGames();
             renderLeaderboard();
         };
-
-        function runPortScanner() {
-            const banner = document.getElementById('scanner-banner');
-            banner.style.display = 'block';
-            
-            setTimeout(() => {
-                banner.innerText = "🔍 Сканирование портов [443, 8443, 2083]... Обнаружен Telegram WebApp шлюз.";
-            }, 800);
-
-            setTimeout(() => {
-                banner.className = 'success';
-                banner.innerText = "✅ Успешная авторизация! Все данные синхронизированы на Telegram-облако.";
-                setTimeout(() => {
-                    banner.style.display = 'none';
-                }, 4000);
-            }, 1800);
-        }
 
         function handleLogin() {
             const login = document.getElementById('login-input').value.trim();
@@ -282,24 +272,30 @@
                 return;
             }
             currentUser = login;
+            currentXp = 100; // Старт для нового игрока
             localStorage.setItem('kdx_username', currentUser);
             localStorage.setItem('kdx_xp', currentXp);
             
+            // Добавляем нового игрока в таблицу лидеров
+            addToLeaderboard(currentUser, currentXp);
+
             document.getElementById('auth-modal').style.display = 'none';
             updateUserUI();
+        }
+
+        function addToLeaderboard(name, xp) {
+            let existing = leaderboardData.find(p => p.name.includes(name));
+            if (!existing) {
+                leaderboardData.push({ rank: leaderboardData.length + 1, name: name, wins: 5, xp: xp, status: 'В сети' });
+            }
+            localStorage.setItem('kdx_leaderboard', JSON.stringify(leaderboardData));
+            renderLeaderboard();
         }
 
         function updateUserUI() {
             document.getElementById('display-user').innerText = currentUser;
             document.getElementById('display-xp').innerText = currentXp;
             document.getElementById('stat-xp').innerText = currentXp;
-
-            // Обновляем первое место в таблице лидеров под текущего игрока
-            if (leaderboardData.length > 0) {
-                leaderboardData[0].name = currentUser + ' (Ты)';
-                leaderboardData[0].xp = currentXp;
-                renderLeaderboard();
-            }
         }
 
         function renderLeaderboard() {
@@ -308,7 +304,11 @@
             
             // Сортируем топ по XP
             leaderboardData.sort((a, b) => b.xp - a.xp);
-            leaderboardData.forEach((player, index) => {
+            
+            // Ограничиваем до 5 строк
+            const top5 = leaderboardData.slice(0, 5);
+
+            top5.forEach((player, index) => {
                 player.rank = index + 1;
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -316,7 +316,7 @@
                     <td>${player.name}</td>
                     <td>${player.wins}</td>
                     <td style="color: var(--neon-blue); font-weight: bold;">${player.xp} XP</td>
-                    <td><span style="color: ${player.status === 'Онлайн' ? '#05e884' : 'var(--text-muted)'};">●</span> ${player.status}</td>
+                    <td><span style="color: #05e884;">●</span> ${player.status}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -376,7 +376,19 @@
         function addXp(amount) {
             currentXp += amount;
             localStorage.setItem('kdx_xp', currentXp);
+            
+            // Обновляем очки в таблице лидеров
+            let player = leaderboardData.find(p => p.name.includes(currentUser));
+            if (player) {
+                player.xp = currentXp;
+                player.wins += 1;
+            } else {
+                leaderboardData.push({ rank: leaderboardData.length + 1, name: currentUser, wins: 1, xp: currentXp, status: 'В сети' });
+            }
+            localStorage.setItem('kdx_leaderboard', JSON.stringify(leaderboardData));
+
             updateUserUI();
+            renderLeaderboard();
             alert(`Отлично! Получено +${amount} XP в облако.`);
             closeGameModal();
         }
@@ -441,7 +453,7 @@
                 let newHead = {x: snakeX, y: snakeY};
 
                 if (snakeX < 0 || snakeX >= 300 || snakeY < 0 || snakeY >= 300) {
-                    clearInterval(activeIndicator = null);
+                    clearInterval(activeInterval);
                     alert('Игра окончена! Очки сохранены в облако.');
                     closeGameModal();
                 }
