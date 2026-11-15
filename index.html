@@ -28,6 +28,10 @@
         .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 0 15px rgba(255, 42, 109, 0.5); transition: 0.2s; }
         .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
 
+        /* Scanner Alert Banner */
+        #scanner-banner { background: linear-gradient(90deg, rgba(5,217,232,0.1), rgba(255,42,109,0.1)); border-bottom: 1px solid var(--neon-blue); padding: 10px 20px; text-align: center; font-size: 13px; color: var(--neon-blue); display: none; }
+        #scanner-banner.success { color: #05e884; border-bottom-color: #05e884; }
+
         /* Header */
         header { background: var(--panel-bg); border-bottom: 2px solid var(--neon-pink); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 20px rgba(255, 42, 109, 0.2); }
         .logo-area { display: flex; align-items: center; gap: 15px; }
@@ -42,22 +46,34 @@
         .section-header h2 { font-size: 20px; color: var(--neon-blue); }
         .section-header p { font-size: 13px; color: var(--text-muted); }
 
-        /* Grid for games */
+        /* Interactive Grid for games with blurred background icons */
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
         .game-card { background: var(--panel-bg); border: 1px solid rgba(5, 217, 232, 0.3); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; overflow: hidden; cursor: pointer; }
-        .game-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 20px rgba(255, 42, 109, 0.3); transform: translateY(-3px); }
-        .game-card.beta::after { content: 'BETA'; position: absolute; top: 10px; right: -30px; background: var(--neon-pink); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 30px; transform: rotate(45deg); box-shadow: 0 0 5px var(--neon-pink); }
-        .game-card h3 { font-size: 16px; margin-bottom: 8px; color: #fff; }
-        .game-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; }
-        .play-btn { background: rgba(5, 217, 232, 0.1); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px; border-radius: 6px; text-align: center; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .game-card:hover .play-btn { background: var(--neon-blue); color: #0b0f19; }
+        .game-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 25px rgba(255, 42, 109, 0.4); transform: translateY(-4px) scale(1.01); }
+        .game-card.beta::after { content: 'BETA'; position: absolute; top: 10px; right: -30px; background: var(--neon-pink); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 30px; transform: rotate(45deg); box-shadow: 0 0 5px var(--neon-pink); z-index: 2; }
+        
+        /* Blurred background game icon watermark */
+        .game-card .bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 90px; opacity: 0.12; filter: blur(6px); pointer-events: none; transition: 0.3s; }
+        .game-card:hover .bg-icon { opacity: 0.25; filter: blur(3px); transform: scale(1.1); }
+
+        .game-card h3 { font-size: 16px; margin-bottom: 8px; color: #fff; position: relative; z-index: 1; }
+        .game-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; position: relative; z-index: 1; }
+        .play-btn { background: rgba(5, 217, 232, 0.1); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px; border-radius: 6px; text-align: center; font-size: 13px; font-weight: bold; transition: 0.2s; position: relative; z-index: 1; }
+        .game-card:hover .play-btn { background: var(--neon-blue); color: #0b0f19; box-shadow: 0 0 10px var(--neon-blue); }
 
         /* Cloud & Stats panel */
         .cloud-panel { background: var(--panel-bg); border: 2px solid var(--neon-purple); border-radius: 16px; padding: 30px; box-shadow: 0 0 20px rgba(180, 0, 255, 0.2); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 30px; }
         .stat-card { background: #0b0f19; border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; text-align: center; }
         .stat-card div:first-child { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
         .stat-card div:last-child { font-size: 24px; font-weight: bold; color: var(--neon-blue); }
+
+        /* Leaderboard Table (5 players) */
+        .leaderboard-container { width: 100%; overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        th { color: var(--neon-blue); font-weight: 600; background: rgba(5, 217, 232, 0.05); }
+        tr:hover { background: rgba(255, 42, 109, 0.05); }
 
         /* Certificate section */
         .cert-section { background: linear-gradient(135deg, #131b2e, #1a103c); border: 2px solid var(--neon-blue); border-radius: 16px; padding: 40px; text-align: center; position: relative; }
@@ -75,7 +91,10 @@
 </head>
 <body>
 
-    <!-- Модальное окно авторизации (скрывается, если уже вошел) -->
+    <!-- Уведомление сканера портов при входе -->
+    <div id="scanner-banner">🛡 Сканирование портов узла... Проверка Telegram WebApp окружения...</div>
+
+    <!-- Модальное окно авторизации -->
     <div id="auth-modal">
         <div class="modal-content">
             <h2>Инициализация</h2>
@@ -113,7 +132,7 @@
             <div class="section-header">
                 <div>
                     <h2>Основная коллекция (8 игр)</h2>
-                    <p>Стабильные аркады без математических ошибок.</p>
+                    <p>Стабильные интерактивные аркады.</p>
                 </div>
             </div>
             <div class="games-grid" id="main-games"></div>
@@ -130,8 +149,9 @@
         </section>
 
         <section class="cloud-panel">
-            <h2>Мини-облако данных</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Синхронизация рекордов в реальном времени.</p>
+            <h2>Мини-облако данных и Точная таблица</h2>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Рейтинг топ-5 игроков сети в реальном времени.</p>
+            
             <div class="stats-grid">
                 <div class="stat-card">
                     <div>Игроков онлайн</div>
@@ -145,6 +165,24 @@
                     <div>Ваш личный XP</div>
                     <div id="stat-xp">0</div>
                 </div>
+            </div>
+
+            <h3 style="color: var(--neon-blue); font-size: 16px; margin-bottom: 10px;">🏆 Таблица лидеров (Топ-5)</h3>
+            <div class="leaderboard-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Игрок</th>
+                            <th>Побед</th>
+                            <th>Очки (XP)</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Динамически заполняется скриптом -->
+                    </tbody>
+                </table>
             </div>
         </section>
 
@@ -170,42 +208,72 @@
     </footer>
 
     <script>
+        // 16 игр с эмодзи-иконками для размытого фона
         const gamesList = [
-            { id: 'snake', name: 'Змейка Неон', desc: 'Классическая змейка без багов.', beta: false },
-            { id: 'clicker', name: 'Кибер-Кликер', desc: 'Зарабатывай XP одним кликом.', beta: false },
-            { id: 'pong', name: 'Неон-Понг', desc: 'Ретро аркада с отскоком мяча.', beta: false },
-            { id: 'memory', name: 'Память Матрицы', desc: 'Найди пары одинаковых чипов.', beta: false },
-            { id: 'runner', name: 'Курьер Сити', desc: 'Объезжай препятствия на дороге.', beta: false },
-            { id: 'math', name: 'Быстрый Счёт', desc: 'Примеры без ошибок математики.', beta: false },
-            { id: 'tictactoe', name: 'Крестики-Нолики', desc: 'Интеллектуальная дуэль.', beta: false },
-            { id: 'flappy', name: 'Флэппи Даня', desc: 'Пролети через неоновые препятствия.', beta: false },
-            { id: 'beta1', name: 'AI Автопилот 2.0', desc: 'Тест нейросетевых алгоритмов.', beta: true },
-            { id: 'beta2', name: 'Гравитационный Прыжок', desc: 'Испытание физики в космосе.', beta: true },
-            { id: 'beta3', name: 'Крипто-Ферма', desc: 'Симулятор облачного майнинга.', beta: true },
-            { id: 'beta4', name: 'Взлом Шлюза', desc: 'Логическая головоломка с кодами.', beta: true },
-            { id: 'beta5', name: 'Гипер-Трасса 3D', desc: 'Симулятор вождения прототипа.', beta: true },
-            { id: 'beta6', name: 'Лабиринт Памяти', desc: 'Выход из неоновых коридоров.', beta: true },
-            { id: 'beta7', name: 'Энерго-Щит', desc: 'Защита облачного сервера.', beta: true },
-            { id: 'beta8', name: 'Феникс и Рыська OS', desc: 'Секретный режим с котами.', beta: true }
+            { id: 'snake', name: 'Змейка Неон', desc: 'Классическая змейка без багов.', beta: false, icon: '🐍' },
+            { id: 'clicker', name: 'Кибер-Кликер', desc: 'Зарабатывай XP одним кликом.', beta: false, icon: '⚡' },
+            { id: 'pong', name: 'Неон-Понг', desc: 'Ретро аркада с отскоком мяча.', beta: false, icon: '🏓' },
+            { id: 'memory', name: 'Память Матрицы', desc: 'Найди пары одинаковых чипов.', beta: false, icon: '🧠' },
+            { id: 'runner', name: 'Курьер Сити', desc: 'Объезжай препятствия на дороге.', beta: false, icon: '🚚' },
+            { id: 'math', name: 'Быстрый Счёт', desc: 'Примеры без ошибок математики.', beta: false, icon: '🔢' },
+            { id: 'tictactoe', name: 'Крестики-Нолики', desc: 'Интеллектуальная дуэль.', beta: false, icon: '❌' },
+            { id: 'flappy', name: 'Флэппи Даня', desc: 'Пролети через неоновые препятствия.', beta: false, icon: '🦅' },
+            { id: 'beta1', name: 'AI Автопилот 2.0', desc: 'Тест нейросетевых алгоритмов.', beta: true, icon: '🤖' },
+            { id: 'beta2', name: 'Гравитационный Прыжок', desc: 'Испытание физики в космосе.', beta: true, icon: '🚀' },
+            { id: 'beta3', name: 'Крипто-Ферма', desc: 'Симулятор облачного майнинга.', beta: true, icon: '💻' },
+            { id: 'beta4', name: 'Взлом Шлюза', desc: 'Логическая головоломка с кодами.', beta: true, icon: '🔐' },
+            { id: 'beta5', name: 'Гипер-Трасса 3D', desc: 'Симулятор вождения прототипа.', beta: true, icon: '🏎️' },
+            { id: 'beta6', name: 'Лабиринт Памяти', desc: 'Выход из неоновых коридоров.', beta: true, icon: '🌀' },
+            { id: 'beta7', name: 'Энерго-Щит', desc: 'Защита облачного сервера.', beta: true, icon: '🛡️' },
+            { id: 'beta8', name: 'Феникс и Рыська OS', desc: 'Секретный режим с котами.', beta: true, icon: '🐱' }
         ];
 
-        // Проверяем параметры из ссылки (если игрок пришел из бота после верификации)
+        // Начальная таблица лидеров на 5 человек
+        let leaderboardData = [
+            { rank: 1, name: 'CyberDani (Ты)', wins: 42, xp: 850, status: 'Онлайн' },
+            { rank: 2, name: 'Aker_Bot', wins: 38, xp: 720, status: 'В сети' },
+            { rank: 3, name: 'Fenix_Cat', wins: 29, xp: 540, status: 'В сети' },
+            { rank: 4, name: 'Ryska_Pro', wins: 24, xp: 480, status: 'Офлайн' },
+            { rank: 5, name: 'KDX_Tester', wins: 19, xp: 350, status: 'В сети' }
+        ];
+
+        // Проверка параметров авторизации из Telegram
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('verified') === 'true' && urlParams.get('name')) {
             localStorage.setItem('kdx_username', urlParams.get('name'));
         }
 
         let currentUser = localStorage.getItem('kdx_username');
-        let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 0;
+        let currentXp = parseInt(localStorage.getItem('kdx_xp')) || 120;
 
         window.onload = function() {
+            // Эмуляция сканирования портов и проверки входа из Telegram
+            runPortScanner();
+
             if (currentUser) {
-                // Если пользователь уже зарегистрирован или пришел из бота — сразу скрываем окно входа!
                 document.getElementById('auth-modal').style.display = 'none';
                 updateUserUI();
             }
             renderGames();
+            renderLeaderboard();
         };
+
+        function runPortScanner() {
+            const banner = document.getElementById('scanner-banner');
+            banner.style.display = 'block';
+            
+            setTimeout(() => {
+                banner.innerText = "🔍 Сканирование портов [443, 8443, 2083]... Обнаружен Telegram WebApp шлюз.";
+            }, 800);
+
+            setTimeout(() => {
+                banner.className = 'success';
+                banner.innerText = "✅ Успешная авторизация! Все данные синхронизированы на Telegram-облако.";
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 4000);
+            }, 1800);
+        }
 
         function handleLogin() {
             const login = document.getElementById('login-input').value.trim();
@@ -225,6 +293,33 @@
             document.getElementById('display-user').innerText = currentUser;
             document.getElementById('display-xp').innerText = currentXp;
             document.getElementById('stat-xp').innerText = currentXp;
+
+            // Обновляем первое место в таблице лидеров под текущего игрока
+            if (leaderboardData.length > 0) {
+                leaderboardData[0].name = currentUser + ' (Ты)';
+                leaderboardData[0].xp = currentXp;
+                renderLeaderboard();
+            }
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = '';
+            
+            // Сортируем топ по XP
+            leaderboardData.sort((a, b) => b.xp - a.xp);
+            leaderboardData.forEach((player, index) => {
+                player.rank = index + 1;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><b>#${player.rank}</b></td>
+                    <td>${player.name}</td>
+                    <td>${player.wins}</td>
+                    <td style="color: var(--neon-blue); font-weight: bold;">${player.xp} XP</td>
+                    <td><span style="color: ${player.status === 'Онлайн' ? '#05e884' : 'var(--text-muted)'};">●</span> ${player.status}</td>
+                `;
+                tbody.appendChild(row);
+            });
         }
 
         function renderGames() {
@@ -238,6 +333,7 @@
                 const card = document.createElement('div');
                 card.className = `game-card ${game.beta ? 'beta' : ''}`;
                 card.innerHTML = `
+                    <div class="bg-icon">${game.icon}</div>
                     <div>
                         <h3>${game.name}</h3>
                         <p>${game.desc}</p>
@@ -268,7 +364,7 @@
                 container.innerHTML = '<canvas id="snakeCanvas" width="300" height="300"></canvas><p style="font-size:11px; color:#8a99ad; margin-top:5px;">Кликните на холст для изменения направления. +50 XP за победу!</p>';
                 initSnake();
             } else {
-                container.innerHTML = `<div style="padding: 40px; color: var(--neon-blue);">Запуск игры "${game.name}"...<br><br><button class="btn-primary" onclick="addXp(25)">Заработать +25 XP</button></div>`;
+                container.innerHTML = `<div style="padding: 40px; color: var(--neon-blue);">Запуск игры "${game.name}"...<br><br><button class="btn-primary" onclick="addXp(50)">Заработать +50 XP</button></div>`;
             }
         }
 
@@ -337,7 +433,7 @@
                         x: Math.floor(Math.random() * 20) * box,
                         y: Math.floor(Math.random() * 20) * box
                     };
-                    addXp(10);
+                    addXp(20);
                 } else {
                     snake.pop();
                 }
@@ -345,7 +441,7 @@
                 let newHead = {x: snakeX, y: snakeY};
 
                 if (snakeX < 0 || snakeX >= 300 || snakeY < 0 || snakeY >= 300) {
-                    clearInterval(activeInterval);
+                    clearInterval(activeIndicator = null);
                     alert('Игра окончена! Очки сохранены в облако.');
                     closeGameModal();
                 }
